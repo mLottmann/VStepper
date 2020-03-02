@@ -9,12 +9,7 @@ class VaadinStepper extends PolymerElement {
             <style include="stepper-styles lumo-color lumo-spacing"></style>
             <div id="header" class="header"></div>
             <div id="content" class="content"></div>
-            <div id="footer" class="footer">
-                <vaadin-button id="back" theme="tertiary">Back</vaadin-button>
-                <div></div>
-                <vaadin-button id="next" theme="primary">Next</vaadin-button>
-                <vaadin-button id="finish" theme="success">Finish</vaadin-button>
-            </div>
+            <div id="footer" class="footer"></div>
         `;
     }
 }

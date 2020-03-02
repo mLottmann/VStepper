@@ -8,7 +8,7 @@ import java.util.function.Consumer;
 
 @Getter
 @Setter
-class Step {
+public class Step {
 
 	private Component header;
 	private Component content;

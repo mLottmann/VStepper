@@ -8,24 +8,21 @@ import lombok.Setter;
 
 @Getter
 @Setter
-class StepHeader extends Div implements EnterStepObserver, AbortStepObserver, CompleteStepObserver {
+public class StepHeader extends Div implements EnterStepObserver, AbortStepObserver, CompleteStepObserver {
 
 	public StepHeader(int number, String title) {
-		this(number);
+		Span stepNumber = new Span(String.valueOf(number));
+		stepNumber.addClassName("step-number");
+		Div numberWrapper = new Div(stepNumber);
+		numberWrapper.addClassName("number-wrapper");
 		Label caption = new Label(title);
 		caption.addClassName("step-title");
-		add(new Label(title));
+		addClassName("step-header");
+		add(numberWrapper, caption);
 	}
 
 	public StepHeader(int number) {
-		addClassName("step-header");
-		Div numberWrapper = new Div();
-		Span stepNumber = new Span();
-		stepNumber.setText(String.valueOf(number));
-		stepNumber.addClassName("step-number");
-		numberWrapper.add(stepNumber);
-		numberWrapper.addClassName("number-wrapper");
-		add(numberWrapper);
+		this(number, "");
 	}
 
 	@Override

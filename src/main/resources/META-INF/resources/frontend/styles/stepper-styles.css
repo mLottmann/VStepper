@@ -6,13 +6,20 @@
 .header {
     display: flex;
     justify-content: space-between;
-    position: relative;
     border-bottom: 1px solid var(--lumo-contrast-10pct);
     margin: var(--lumo-space-m) var(--lumo-space-m) 0 var(--lumo-space-m);
     padding-bottom: var(--lumo-space-s);
 }
 
-.header:after {
+.step-header {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 100%;
+    align-items: center;
+}
+
+.step-header:after {
     height: 1px;
     background: var(--lumo-primary-color);
     content: "";
@@ -22,9 +29,20 @@
     right: 0px;
 }
 
-.step-header {
-    display: flex;
-    flex-direction: column;
+.step-header:first-child:after {
+    left: 50%;
+    width: 50%;
+}
+
+.step-header:last-child:after {
+    width: 50%;
+}
+
+.number-wrapper {
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color: var(--lumo-tint);
+    z-index: 1;
 }
 
 .step-number {
@@ -40,16 +58,10 @@
     margin-bottom: var(--lumo-space-xs);
 }
 
-.number-wrapper {
-    align-self: center;
-    padding-left: 10px;
-    padding-right: 10px;
-    background-color: var(--lumo-tint);
-    z-index: 1;
-}
-
 .step-title {
-    font-size: 10px;
+    font-size: 14px;
+    max-width: 200px;
+    overflow-wrap: break-word;
 }
 
 .step-header.completed .step-number {
