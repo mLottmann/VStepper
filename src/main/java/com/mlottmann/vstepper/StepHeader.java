@@ -1,14 +1,17 @@
-package com.mlottmann.stepper;
+package com.mlottmann.vstepper;
 
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.html.Span;
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
-public class StepHeader extends Div implements EnterStepObserver, AbortStepObserver, CompleteStepObserver {
+/**
+ * Default step header used whenever no header component is specified.
+ */
+public class StepHeader extends Div implements EnterStepHandler, AbortStepHandler, CompleteStepHandler {
+
+	public StepHeader() {
+
+	}
 
 	public StepHeader(int number, String title) {
 		Span stepNumber = new Span(String.valueOf(number));
@@ -19,10 +22,6 @@ public class StepHeader extends Div implements EnterStepObserver, AbortStepObser
 		caption.addClassName("step-title");
 		addClassName("step-header");
 		add(numberWrapper, caption);
-	}
-
-	public StepHeader(int number) {
-		this(number, "");
 	}
 
 	@Override

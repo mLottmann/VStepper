@@ -1,4 +1,4 @@
-package com.mlottmann.stepper;
+package com.mlottmann.vstepper;
 
 import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.button.Button;
@@ -14,9 +14,14 @@ import com.vaadin.flow.templatemodel.TemplateModel;
 import java.util.ArrayList;
 import java.util.List;
 
-@Tag("vaadin-stepper")
-@JsModule("./vaadin-stepper.js")
-public class Stepper extends PolymerTemplate<TemplateModel> implements HasSize, HasStyle {
+/**
+ * @author Matthias Lottmann
+ * <p>
+ * Vaadin addon for displaying a series of components one at a time.
+ */
+@Tag("v-stepper")
+@JsModule("./v-stepper.js")
+public class VStepper extends PolymerTemplate<TemplateModel> implements HasSize, HasStyle {
 
 	private final List<Step> steps;
 	private Step currentStep;
@@ -33,19 +38,25 @@ public class Stepper extends PolymerTemplate<TemplateModel> implements HasSize, 
 	private Button next;
 	private Button finish;
 
-	public Stepper() {
+	public VStepper() {
 		this.steps = new ArrayList<>();
 		initFooter();
 	}
 
-	public Stepper(Component... components) {
+	/**
+	 * @param components the components to display in the the different stepper steps.
+	 */
+	public VStepper(Component... components) {
 		this();
 		for (Component component : components) {
 			addStep(component);
 		}
 	}
 
-	public Stepper(Step... steps) {
+	/**
+	 * @param steps the steps to display in this stepper. A step consists of a header and a content component.
+	 */
+	public VStepper(Step... steps) {
 		this();
 		for (Step step : steps) {
 			addStep(step);
@@ -67,7 +78,6 @@ public class Stepper extends PolymerTemplate<TemplateModel> implements HasSize, 
 
 		back.setVisible(false);
 		finish.setVisible(false);
-
 		setCancelVisible(false);
 	}
 
@@ -122,31 +132,64 @@ public class Stepper extends PolymerTemplate<TemplateModel> implements HasSize, 
 		return steps.indexOf(step) == steps.size() - 1;
 	}
 
+	/**
+	 * Adds a new step with the given content component and a default header component to the stepper.
+	 *
+	 * @param stepContent the content to display when the corresponding step is reached.
+	 */
 	public void addStep(Component stepContent) {
 		addStep("", stepContent);
 	}
 
+	/**
+	 * Adds a new step with the given content component and a default header component with the given title to
+	 * the stepper.
+	 *
+	 * @param stepTitle   the title to display in the default header component.
+	 * @param stepContent the content to display when the corresponding step is reached.
+	 */
 	public void addStep(String stepTitle, Component stepContent) {
 		StepHeader stepHeader = new StepHeader(steps.size() + 1, stepTitle);
 		addStep(stepHeader, stepContent);
 	}
 
+	/**
+	 * Adds a new step with the given header component and content component to the stepper.
+	 *
+	 * @param stepHeader  the header component of this step to display in the header of the stepper.
+	 * @param stepContent the content to display when the corresponding step is reached.
+	 */
 	public void addStep(Component stepHeader, Component stepContent) {
 		Step step = new Step(stepHeader, stepContent);
 		addStep(step);
 	}
 
+	/**
+	 * And the given step to the stepper.
+	 *
+	 * @param step the step to add to the stepper. Each step consists of a header and a content component.
+	 */
 	public void addStep(Step step) {
 		step.addValidationListener(isValid -> next.setEnabled(isValid));
 		header.add(step.getHeader());
 		steps.add(step);
 		if (currentStep == null) {
-			currentStep = step;
-			currentStep.enter();
-			content.add(currentStep.getContent());
+			showFirstStep(step);
 		}
 	}
 
+	private void showFirstStep(Step step) {
+		currentStep = step;
+		currentStep.enter();
+		next.setEnabled(currentStep.isValid());
+		content.add(currentStep.getContent());
+	}
+
+	/**
+	 * Sets the visibility of the cancel button in the footer. Also affects the layout of the footer.
+	 *
+	 * @param visible
+	 */
 	public void setCancelVisible(boolean visible) {
 		footer.removeAll();
 		cancel.setVisible(visible);

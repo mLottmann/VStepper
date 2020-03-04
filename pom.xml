@@ -1,11 +1,12 @@
-<?xml version="1.0" encoding="UTF-8"?><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.mlottmann.stepper</groupId>
-    <artifactId>stepper</artifactId>
-    <version>1.0-SNAPSHOT</version>
-    <name>Stepper</name>
-    <description>Integration of paper-slider for Vaadin platform</description>
+    <groupId>com.mlottmann.vstepper</groupId>
+    <artifactId>vstepper</artifactId>
+    <version>1.0.1</version>
+    <name>VStepper</name>
 
     <properties>
         <vaadin.version>14.1.3</vaadin.version>
@@ -68,7 +69,9 @@
         <pluginRepository>
             <id>vaadin-snapshots</id>
             <url>https://oss.sonatype.org/content/repositories/vaadin-snapshots/</url>
-            <releases><enabled>false</enabled></releases>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
         </pluginRepository>
     </pluginRepositories>
 
@@ -257,7 +260,7 @@
                     <artifactId>flow-server-production-mode</artifactId>
                 </dependency>
             </dependencies>
-            
+
             <build>
                 <plugins>
                     <plugin>

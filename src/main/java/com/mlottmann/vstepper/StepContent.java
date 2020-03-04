@@ -1,4 +1,4 @@
-package com.mlottmann.stepper;
+package com.mlottmann.vstepper;
 
 import com.vaadin.flow.component.html.Div;
 
@@ -6,7 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-public abstract class StepContent extends Div implements EnterStepObserver, AbortStepObserver, CompleteStepObserver, ValidatableStep {
+/**
+ * Abstract helper class for step contents implementing all step handlers.
+ */
+public abstract class StepContent extends Div implements EnterStepHandler, AbortStepHandler, CompleteStepHandler, ValidationHandler {
 
 	private final List<Consumer<Boolean>> validationListeners;
 	private boolean validState;

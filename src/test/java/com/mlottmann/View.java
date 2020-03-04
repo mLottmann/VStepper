@@ -1,122 +1,70 @@
 package com.mlottmann;
 
-import com.mlottmann.stepper.*;
-import com.vaadin.flow.component.combobox.ComboBox;
+import com.mlottmann.vstepper.VStepper;
+import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.Route;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Consumer;
 
 @Route("")
 public class View extends Div {
 
 	public View() {
-		Stepper stepper = new Stepper();
-		stepper.setWidthFull();
-		stepper.setHeight("400px");
-		stepper.addStep(new TextField("Content 1"));
-		stepper.addStep("Steppable Test", new SteppableTest());
-		stepper.addStep("Step 3", new Label("Content 3"));
-		stepper.addStep("Step content Test", new StepContentTest());
-		stepper.addStep("Step 5", new ComboBox<>("Content 5"));
+		VStepper stepper = completeTest();
+		stepper.setWidth("500px");
+		stepper.setHeight("300px");
 		add(stepper);
 	}
 
-	private Div createStepOneContent() {
-		Div content = new Div();
-		content.addClassName("step-header");
-		content.add(new TextField("Field1"));
-		content.add(new TextField("Field2"));
-		content.add(new TextField("Field3"));
-		return content;
+	private VStepper createSimpleUseTest() {
+		VStepper simpleUse = new VStepper();
+		simpleUse.addStep(new Label("Step 1"));
+		simpleUse.addStep(new Label("Step 2"));
+		simpleUse.addStep(new Label("Step 3"));
+		return simpleUse;
 	}
 
-	private class SteppableTest extends VerticalLayout implements EnterStepObserver, AbortStepObserver, CompleteStepObserver, ValidatableStep {
-
-		private final List<Consumer<Boolean>> validationListeners;
-		private boolean validState;
-		private TextField input;
-
-		public SteppableTest() {
-			this.validationListeners = new ArrayList<>();
-			input = new TextField("Content 3");
-			input.addValueChangeListener(valueChanged -> stepChanged());
-			input.setValueChangeMode(ValueChangeMode.EAGER);
-			add(input, new TextField("Content 3"), new TextField("Content 3"), new TextField("Content 3"), new TextField("Content 3"), new TextField("Content 3"));
-		}
-
-		@Override
-		public void enter() {
-
-		}
-
-		@Override
-		public void abort() {
-			input.setValue("");
-		}
-
-		@Override
-		public void complete() {
-
-		}
-
-		@Override
-		public boolean isValid() {
-			return !input.getValue().isEmpty();
-		}
-
-		@Override
-		public void addValidationListener(Consumer<Boolean> validationListener) {
-			this.validationListeners.add(validationListener);
-		}
-
-		private void updateValidationListeners() {
-			validationListeners.forEach(listener -> listener.accept(validState));
-		}
-
-		private void stepChanged() {
-			if (validState != isValid()) {
-				validState = isValid();
-				updateValidationListeners();
-			}
-		}
+	private VStepper createSimpleUseTest2() {
+		VStepper simpleUse = new VStepper(new Label("Step 1"),
+				new Label("Step 2"), new Label("Step 3"));
+		return simpleUse;
 	}
 
-	private class StepContentTest extends StepContent {
+	private VStepper createHeaderCaptionsTest() {
+		VStepper customHeaderCaptions = new VStepper();
+		customHeaderCaptions.addStep("Step 1", new Label("Step 1"));
+		customHeaderCaptions.addStep("Step 2", new Label("Step 2"));
+		customHeaderCaptions.addStep("Step 3", new Label("Step 3"));
+		return customHeaderCaptions;
+	}
 
-		private TextField input;
+	private VStepper createHeaderComponentsTest() {
+		VStepper headerCaptions = new VStepper();
+		headerCaptions.addStep(new Label("Header 1"), new Label("Step 1"));
+		TextField header2 = new TextField();
+		header2.setValue("Header 2");
+		headerCaptions.addStep(header2, new Label("Step 2"));
+		headerCaptions.addStep(new DatePicker(), new Label("Step 3"));
+		return headerCaptions;
+	}
 
-		public StepContentTest() {
-			input = new TextField("Content 4");
-			input.addValueChangeListener(valueChanged -> stepChanged());
-			input.setValueChangeMode(ValueChangeMode.EAGER);
-			add(input);
-		}
+	private VStepper createCustomHeadersTest() {
+		VStepper customHeaderCaptions = new VStepper();
+		customHeaderCaptions.addStep(new CustomHeader("Step 1"), new Label("Step 1"));
+		customHeaderCaptions.addStep(new CustomHeader("Step 2"), new Label("Step 2"));
+		customHeaderCaptions.addStep(new CustomHeader("Step 3"), new Label("Step 3"));
+		return customHeaderCaptions;
+	}
 
-		@Override
-		public void enter() {
-			input.setValue("Welcome to content 4");
-		}
-
-		@Override
-		public void abort() {
-
-		}
-
-		@Override
-		public void complete() {
-
-		}
-
-		@Override
-		public boolean isValid() {
-			return !input.getValue().isEmpty();
-		}
+	private VStepper completeTest() {
+		VStepper completeTest = new VStepper();
+		CompleteHeader header1 = new CompleteHeader("Step 1");
+		completeTest.addStep(header1, new CompleteContent(header1.getStepData()::setText));
+		CompleteHeader header2 = new CompleteHeader("Step 2");
+		completeTest.addStep(header2, new CompleteContent(header2.getStepData()::setText));
+		CompleteHeader header3 = new CompleteHeader("Step 3");
+		completeTest.addStep(header3, new CompleteContent(header3.getStepData()::setText));
+		return completeTest;
 	}
 }
