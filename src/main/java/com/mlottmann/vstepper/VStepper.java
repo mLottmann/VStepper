@@ -169,7 +169,7 @@ public class VStepper extends PolymerTemplate<TemplateModel> implements HasSize,
 	 *
 	 * @param step the step to add to the stepper. Each step consists of a header and a content component.
 	 */
-	public void addStep(Step step) {
+	private void addStep(Step step) {
 		step.addValidationListener(isValid -> next.setEnabled(isValid));
 		header.add(step.getHeader());
 		steps.add(step);

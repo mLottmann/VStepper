@@ -4,6 +4,9 @@ import com.mlottmann.vstepper.VStepper;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 
@@ -11,9 +14,9 @@ import com.vaadin.flow.router.Route;
 public class View extends Div {
 
 	public View() {
-		VStepper stepper = completeTest();
+		VStepper stepper = createShowTest();
 		stepper.setWidth("500px");
-		stepper.setHeight("300px");
+		stepper.setHeight("350px");
 		add(stepper);
 	}
 
@@ -66,5 +69,37 @@ public class View extends Div {
 		CompleteHeader header3 = new CompleteHeader("Step 3");
 		completeTest.addStep(header3, new CompleteContent(header3.getStepData()::setText));
 		return completeTest;
+	}
+
+	private VStepper createShowTest() {
+		VStepper showTest = new VStepper();
+		showTest.addStep("Personal Info", new Label("Step 1"));
+		showTest.addStep("Address", createAddressForm());
+		showTest.addStep("Confirmation", new Label("Step 3"));
+		return showTest;
+	}
+
+	private VerticalLayout createAddressForm() {
+		VerticalLayout addressForm = new VerticalLayout();
+		addressForm.add(createRow("Street Name:", createInput("Please enter street name")));
+		addressForm.add(createRow("Postal code:", createInput("Please enter postal code")));
+		addressForm.add(createRow("Country:", createInput("Please enter country")));
+		return addressForm;
+	}
+
+	private TextField createInput(String placeholder) {
+		TextField input = new TextField();
+		input.setPlaceholder(placeholder);
+		input.setWidth("250px");
+		return input;
+	}
+
+	private HorizontalLayout createRow(String caption, TextField input) {
+		Label title = new Label(caption);
+		HorizontalLayout row = new HorizontalLayout(title, input);
+		row.setFlexGrow(1, title);
+		row.setAlignItems(FlexComponent.Alignment.CENTER);
+		row.setWidth("100%");
+		return row;
 	}
 }

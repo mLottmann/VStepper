@@ -11,10 +11,10 @@ import java.util.function.Consumer;
  */
 @Getter
 @Setter
-public class Step {
+class Step implements EnterStepHandler, AbortStepHandler, CompleteStepHandler, ValdatableStep {
 
-	private Component header;
-	private Component content;
+	protected Component header;
+	protected Component content;
 
 	public Step(Component header, Component content) {
 		this.header = header;
@@ -49,15 +49,16 @@ public class Step {
 	}
 
 	public boolean isValid() {
-		if (content instanceof ValidationHandler) {
-			return ((ValidationHandler) content).isValid();
+		if (content instanceof ValdatableStep) {
+			return ((ValdatableStep) content).isValid();
 		}
 		return true;
 	}
 
 	public void addValidationListener(Consumer<Boolean> validationListener) {
-		if (content instanceof ValidationHandler) {
-			((ValidationHandler) content).addValidationListener(validationListener);
+		if (content instanceof ValdatableStep) {
+			((ValdatableStep) content).addValidationListener(validationListener);
 		}
 	}
+
 }

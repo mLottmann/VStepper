@@ -11,7 +11,7 @@
     background: var(--lumo-primary-color);
     content: "";
     position: absolute;
-    top: 15px;
+    top: 18px;
     left: 0px;
     right: 0px;
 }
@@ -42,7 +42,7 @@
     border-radius: 100%;
     background: var(--lumo-tint);
     color: var(--lumo-primary-color);
-    margin-bottom: var(--lumo-space-xs);
+    margin: var(--lumo-space-xs) 0;
 }
 
 .step-title {
