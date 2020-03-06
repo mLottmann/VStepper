@@ -169,12 +169,22 @@ public class VStepper extends PolymerTemplate<TemplateModel> implements HasSize,
 	 *
 	 * @param step the step to add to the stepper. Each step consists of a header and a content component.
 	 */
-	private void addStep(Step step) {
-		step.addValidationListener(isValid -> next.setEnabled(isValid));
+	public void addStep(Step step) throws IllegalArgumentException {
+		checkStep(step);
+		step.addValidationListener(event -> next.setEnabled(event.isValid()));
 		header.add(step.getHeader());
 		steps.add(step);
 		if (currentStep == null) {
 			showFirstStep(step);
+		}
+	}
+
+	private void checkStep(Step step) throws IllegalArgumentException {
+		if (step.getHeader() == null) {
+			throw new IllegalArgumentException("Step header can not be null.");
+		}
+		if (step.getContent() == null) {
+			throw new IllegalArgumentException("Step content can not be null.");
 		}
 	}
 
@@ -203,6 +213,14 @@ public class VStepper extends PolymerTemplate<TemplateModel> implements HasSize,
 	public Registration addCancelListener(ComponentEventListener<ClickEvent<Button>> listener) {
 		setCancelVisible(true);
 		return cancel.addClickListener(listener);
+	}
+
+	public Registration addNextListener(ComponentEventListener<ClickEvent<Button>> listener) {
+		return next.addClickListener(listener);
+	}
+
+	public Registration addBackListener(ComponentEventListener<ClickEvent<Button>> listener) {
+		return back.addClickListener(listener);
 	}
 
 	public Registration addFinishListener(ComponentEventListener<ClickEvent<Button>> listener) {

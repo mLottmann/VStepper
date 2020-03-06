@@ -1,5 +1,8 @@
 package com.mlottmann.vstepper;
 
+import com.mlottmann.vstepper.stepEvent.AbortStepListener;
+import com.mlottmann.vstepper.stepEvent.CompleteStepListener;
+import com.mlottmann.vstepper.stepEvent.EnterStepListener;
 import com.vaadin.flow.component.html.Div;
 
 import java.util.ArrayList;
@@ -9,7 +12,7 @@ import java.util.function.Consumer;
 /**
  * Abstract helper class for step contents implementing all step handlers.
  */
-public abstract class StepContent extends Div implements EnterStepHandler, AbortStepHandler, CompleteStepHandler, ValdatableStep {
+public abstract class StepContent extends Div implements EnterStepListener, AbortStepListener, CompleteStepListener, ValidationStep {
 
 	private final List<Consumer<Boolean>> validationListeners;
 	private boolean validState;

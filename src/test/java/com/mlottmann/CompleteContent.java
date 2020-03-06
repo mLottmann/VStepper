@@ -1,6 +1,7 @@
 package com.mlottmann;
 
 import com.mlottmann.vstepper.StepContent;
+import com.mlottmann.vstepper.stepEvent.StepEvent;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
 
@@ -20,17 +21,17 @@ public class CompleteContent extends StepContent {
 	}
 
 	@Override
-	public void enter() {
+	public void enter(StepEvent event) {
 		input.setValue("");
 	}
 
 	@Override
-	public void abort() {
+	public void abort(StepEvent event) {
 		dataDisplay.accept("-");
 	}
 
 	@Override
-	public void complete() {
+	public void complete(StepEvent event) {
 		dataDisplay.accept(input.getValue());
 	}
 

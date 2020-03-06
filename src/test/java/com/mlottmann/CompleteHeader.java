@@ -1,13 +1,14 @@
 package com.mlottmann;
 
-import com.mlottmann.vstepper.AbortStepHandler;
-import com.mlottmann.vstepper.CompleteStepHandler;
-import com.mlottmann.vstepper.EnterStepHandler;
+import com.mlottmann.vstepper.stepEvent.AbortStepListener;
+import com.mlottmann.vstepper.stepEvent.CompleteStepListener;
+import com.mlottmann.vstepper.stepEvent.EnterStepListener;
+import com.mlottmann.vstepper.stepEvent.StepEvent;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import lombok.Getter;
 
-public class CompleteHeader extends VerticalLayout implements AbortStepHandler, CompleteStepHandler, EnterStepHandler {
+public class CompleteHeader extends VerticalLayout implements AbortStepListener, CompleteStepListener, EnterStepListener {
 
 	private Label state;
 	@Getter
@@ -21,17 +22,17 @@ public class CompleteHeader extends VerticalLayout implements AbortStepHandler, 
 	}
 
 	@Override
-	public void abort() {
+	public void abort(StepEvent event) {
 		state.setText("Inactive");
 	}
 
 	@Override
-	public void complete() {
+	public void complete(StepEvent event) {
 		state.setText("Complete");
 	}
 
 	@Override
-	public void enter() {
+	public void enter(StepEvent event) {
 		state.setText("Active");
 	}
 }
