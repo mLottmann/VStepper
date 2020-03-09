@@ -1,9 +1,6 @@
 package com.mlottmann;
 
-import com.mlottmann.vstepper.stepEvent.AbortStepListener;
-import com.mlottmann.vstepper.stepEvent.CompleteStepListener;
-import com.mlottmann.vstepper.stepEvent.EnterStepListener;
-import com.mlottmann.vstepper.stepEvent.StepEvent;
+import com.mlottmann.vstepper.stepEvent.*;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
@@ -18,17 +15,17 @@ public class CustomHeader extends VerticalLayout implements AbortStepListener, C
 	}
 
 	@Override
-	public void abort(StepEvent event) {
+	public void abort(AbortEvent event) {
 		state.setText("Inactive");
 	}
 
 	@Override
-	public void complete(StepEvent event) {
+	public void complete(CompleteEvent event) {
 		state.setText("Complete");
 	}
 
 	@Override
-	public void enter(StepEvent event) {
+	public void enter(EnterEvent event) {
 		state.setText("Active");
 	}
 }

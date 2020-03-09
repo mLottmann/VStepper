@@ -4,11 +4,11 @@ import com.mlottmann.vstepper.Step;
 import lombok.Getter;
 
 @Getter
-public class ValidateStepEvent extends StepEvent {
+public class ValidationChangedEvent extends StepEvent {
 
 	private boolean isValid;
 
-	public ValidateStepEvent(Step step, boolean isValid) {
+	public ValidationChangedEvent(Step step, boolean isValid) {
 		super(step);
 		this.isValid = isValid;
 	}

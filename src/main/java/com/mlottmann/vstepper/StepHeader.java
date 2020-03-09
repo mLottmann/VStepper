@@ -1,9 +1,6 @@
 package com.mlottmann.vstepper;
 
-import com.mlottmann.vstepper.stepEvent.AbortStepListener;
-import com.mlottmann.vstepper.stepEvent.CompleteStepListener;
-import com.mlottmann.vstepper.stepEvent.EnterStepListener;
-import com.mlottmann.vstepper.stepEvent.StepEvent;
+import com.mlottmann.vstepper.stepEvent.*;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.html.Span;
@@ -29,18 +26,18 @@ public class StepHeader extends Div implements EnterStepListener, AbortStepListe
 	}
 
 	@Override
-	public void abort(StepEvent event) {
+	public void abort(AbortEvent event) {
 		removeClassName("active");
 	}
 
 	@Override
-	public void complete(StepEvent event) {
+	public void complete(CompleteEvent event) {
 		removeClassName("active");
 		addClassName("completed");
 	}
 
 	@Override
-	public void enter(StepEvent event) {
+	public void enter(EnterEvent event) {
 		removeClassName("completed");
 		addClassName("active");
 	}

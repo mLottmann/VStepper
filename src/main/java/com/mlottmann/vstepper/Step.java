@@ -41,10 +41,7 @@ public class Step {
 		removeListener(this.content);
 		this.content = content;
 		addListener(this.content);
-		if (content instanceof ValidationStep) {
-			((ValidationStep) content)
-					.addValidationListener(isValid -> updateValidationListeners(isValid));
-		}
+		listenTo(this.content);
 	}
 
 	private void removeListener(Component component) {
@@ -68,6 +65,14 @@ public class Step {
 		}
 	}
 
+	private void listenTo(Component component) {
+		if (this.content instanceof ValidationContent) {
+			((ValidationContent) content)
+					.addValidationListener(isValid -> updateValidationListeners(isValid));
+		}
+	}
+
+
 	public Registration addEnterListener(EnterStepListener listener) {
 		return addListener(EnterStepListener.class, listener);
 	}
@@ -80,11 +85,14 @@ public class Step {
 		return addListener(CompleteStepListener.class, listener);
 	}
 
-	public Registration addValidationListener(ValidateStepListener listener) {
-		return addListener(ValidateStepListener.class, listener);
+	public Registration addValidationListener(ValidationStepListener listener) {
+		return addListener(ValidationStepListener.class, listener);
 	}
 
-	private <E extends StepEventListener> Registration addListener(Class<E> listenerType, E listener) {
+	private <E extends StepEventListener> Registration addListener(Class<E> listenerType, E listener) throws IllegalArgumentException {
+		if (listener == null) {
+			throw new IllegalArgumentException("Listener cant be null");
+		}
 		List<E> list = (List) this.listeners.computeIfAbsent(listenerType, (key) -> {
 			return new ArrayList();
 		});
@@ -93,27 +101,27 @@ public class Step {
 	}
 
 	public void enter() {
-		StepEvent event = new StepEvent(this);
+		EnterEvent event = new EnterEvent(this);
 		getListeners(EnterStepListener.class).forEach(enterStepListener ->
 				enterStepListener.enter(event));
 	}
 
 	public void abort() {
-		StepEvent event = new StepEvent(this);
+		AbortEvent event = new AbortEvent(this);
 		getListeners(AbortStepListener.class).forEach(abortStepListener ->
 				abortStepListener.abort(event));
 	}
 
 	public void complete() {
-		StepEvent event = new StepEvent(this);
+		CompleteEvent event = new CompleteEvent(this);
 		getListeners(CompleteStepListener.class).forEach(completeStepListener ->
 				completeStepListener.complete(event));
 	}
 
-	private void updateValidationListeners(boolean isValid) {
-		ValidateStepEvent event = new ValidateStepEvent(this, isValid);
-		listeners.get(ValidateStepListener.class).forEach(stepEventListener -> {
-			((ValidateStepListener) stepEventListener).validationChanged(event);
+	protected void updateValidationListeners(boolean isValid) {
+		ValidationChangedEvent event = new ValidationChangedEvent(this, isValid);
+		listeners.get(ValidationStepListener.class).forEach(stepEventListener -> {
+			((ValidationStepListener) stepEventListener).validationChanged(event);
 		});
 	}
 
@@ -125,8 +133,8 @@ public class Step {
 	}
 
 	public boolean isValid() {
-		if (content instanceof ValidationStep) {
-			return ((ValidationStep) content).isValid();
+		if (content instanceof ValidationContent) {
+			return ((ValidationContent) content).isValid();
 		}
 		return true;
 	}

@@ -12,7 +12,7 @@ import java.util.function.Consumer;
 /**
  * Abstract helper class for step contents implementing all step handlers.
  */
-public abstract class StepContent extends Div implements EnterStepListener, AbortStepListener, CompleteStepListener, ValidationStep {
+public abstract class StepContent extends Div implements EnterStepListener, AbortStepListener, CompleteStepListener, ValidationContent {
 
 	private final List<Consumer<Boolean>> validationListeners;
 	private boolean validState;
