@@ -15,7 +15,7 @@ import com.vaadin.flow.router.Route;
 public class View extends Div {
 
 	public View() {
-		VStepper stepper = createFullStepTest();
+		VStepper stepper = createShowTest();
 		stepper.setWidth("500px");
 		stepper.setHeight("350px");
 		add(stepper);
