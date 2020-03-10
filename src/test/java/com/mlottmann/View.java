@@ -1,5 +1,6 @@
 package com.mlottmann;
 
+import com.mlottmann.vstepper.Step;
 import com.mlottmann.vstepper.VStepper;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.datepicker.DatePicker;
@@ -16,8 +17,8 @@ public class View extends Div {
 
 	public View() {
 		VStepper stepper = createShowTest();
-		stepper.setWidth("500px");
-		stepper.setHeight("350px");
+		stepper.setWidth("400px");
+		stepper.setHeight("400px");
 		add(stepper);
 	}
 
@@ -38,21 +39,50 @@ public class View extends Div {
 	}
 
 	private VStepper createHeaderComponentsTest() {
-		VStepper headerCaptions = new VStepper();
-		headerCaptions.addStep(new Label("Header 1"), new Label("Step 1"));
+		VStepper headerComponents = new VStepper();
+		headerComponents.addStep(new Label("Header 1"), new Label("Step 1"));
 		TextField header2 = new TextField();
 		header2.setValue("Header 2");
-		headerCaptions.addStep(header2, new Label("Step 2"));
-		headerCaptions.addStep(new Label("Header 3"), new Label("Step 3"));
-		return headerCaptions;
+		headerComponents.addStep(header2, new Label("Step 2"));
+		headerComponents.addStep(new Label("Header 3"), new Label("Step 3"));
+		return headerComponents;
+	}
+
+	private VStepper createCustomStepsTest() {
+		VStepper customSteps = new VStepper();
+		customSteps.addStep(createStep(new Label("Step 1"), new Label("Step 1")));
+		customSteps.addStep(createStep(new Label("Step 2"), new Label("Step 2")));
+		customSteps.addStep(createStep(new Label("Step 3"), new Label("Step 3")));
+		return customSteps;
+	}
+
+	private Step createStep(Component header, Component content) {
+		return new Step(header, content) {
+			@Override
+			protected void onEnter() {
+			}
+
+			@Override
+			protected void onAbort() {
+			}
+
+			@Override
+			protected void onComplete() {
+			}
+
+			@Override
+			public boolean isValid() {
+				return true;
+			}
+		};
 	}
 
 	private VStepper createCustomHeadersTest() {
-		VStepper customHeaderCaptions = new VStepper();
-		customHeaderCaptions.addStep(new CustomHeader("Step 1"), new Label("Step 1"));
-		customHeaderCaptions.addStep(new CustomHeader("Step 2"), new Label("Step 2"));
-		customHeaderCaptions.addStep(new CustomHeader("Step 3"), new Label("Step 3"));
-		return customHeaderCaptions;
+		VStepper customHeaders = new VStepper();
+		customHeaders.addStep(new CustomHeader("Step 1"), new Label("Step 1"));
+		customHeaders.addStep(new CustomHeader("Step 2"), new Label("Step 2"));
+		customHeaders.addStep(new CustomHeader("Step 3"), new Label("Step 3"));
+		return customHeaders;
 	}
 
 	private VStepper createFullContentTest() {

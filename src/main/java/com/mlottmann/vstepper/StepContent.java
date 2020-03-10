@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 /**
- * Abstract helper class for step contents implementing all step handlers.
+ * Abstract helper class for step contents implementing all step listeners and the validation content interface
  */
 public abstract class StepContent extends Div implements EnterStepListener, AbortStepListener, CompleteStepListener, ValidationContent {
 

@@ -41,22 +41,19 @@ public class FullStep extends Step {
 	}
 
 	@Override
-	public void enter() {
-		super.enter();
+	public void onEnter() {
 		state.setText("Active");
 		input.setValue("");
 		inputValue.setText("-");
 	}
 
 	@Override
-	public void abort() {
-		super.abort();
+	public void onAbort() {
 		state.setText("Inactive");
 	}
 
 	@Override
-	public void complete() {
-		super.complete();
+	public void onComplete() {
 		state.setText("Completed");
 		inputValue.setText(input.getValue());
 	}

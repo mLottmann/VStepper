@@ -10,10 +10,6 @@ import com.vaadin.flow.component.html.Span;
  */
 public class StepHeader extends Div implements EnterStepListener, AbortStepListener, CompleteStepListener {
 
-	public StepHeader() {
-
-	}
-
 	public StepHeader(int number, String title) {
 		Span stepNumber = new Span(String.valueOf(number));
 		stepNumber.addClassName("step-number");
@@ -26,18 +22,18 @@ public class StepHeader extends Div implements EnterStepListener, AbortStepListe
 	}
 
 	@Override
-	public void abort(AbortEvent event) {
+	public void onAbort(AbortEvent event) {
 		removeClassName("active");
 	}
 
 	@Override
-	public void complete(CompleteEvent event) {
+	public void onComplete(CompleteEvent event) {
 		removeClassName("active");
 		addClassName("completed");
 	}
 
 	@Override
-	public void enter(EnterEvent event) {
+	public void onEnter(EnterEvent event) {
 		removeClassName("completed");
 		addClassName("active");
 	}

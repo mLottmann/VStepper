@@ -5,7 +5,7 @@
 
     <groupId>com.mlottmann.vstepper</groupId>
     <artifactId>vstepper</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.3</version>
     <name>VStepper</name>
 
     <properties>

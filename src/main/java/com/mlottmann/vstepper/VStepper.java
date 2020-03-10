@@ -160,12 +160,12 @@ public class VStepper extends PolymerTemplate<TemplateModel> implements HasSize,
 	 * @param stepContent the content to display when the corresponding step is reached.
 	 */
 	public void addStep(Component stepHeader, Component stepContent) {
-		Step step = new Step(stepHeader, stepContent);
+		Step step = new DefaultStep(stepHeader, stepContent);
 		addStep(step);
 	}
 
 	/**
-	 * And the given step to the stepper.
+	 * Adds the given step to the stepper.
 	 *
 	 * @param step the step to add to the stepper. Each step consists of a header and a content component.
 	 */

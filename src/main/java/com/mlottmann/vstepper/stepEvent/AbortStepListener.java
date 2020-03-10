@@ -1,8 +1,8 @@
 package com.mlottmann.vstepper.stepEvent;
 
 /**
- * Interface for handling abort step events.
+ * Interface for listening to abort step events.
  */
 public interface AbortStepListener extends StepEventListener {
-	void abort(AbortEvent event);
+	void onAbort(AbortEvent event);
 }

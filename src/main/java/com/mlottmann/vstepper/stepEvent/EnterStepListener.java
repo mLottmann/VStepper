@@ -1,8 +1,8 @@
 package com.mlottmann.vstepper.stepEvent;
 
 /**
- * Interface for handling enter step events.
+ * Interface for listening to enter step events.
  */
 public interface EnterStepListener extends StepEventListener {
-	void enter(EnterEvent event);
+	void onEnter(EnterEvent event);
 }

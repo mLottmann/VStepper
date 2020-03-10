@@ -11,9 +11,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Container class containing the header and content component of a step.
+ * Container class containing the header and content component of a step also handles firing step events.
  */
-public class Step {
+public abstract class Step {
 
 	private Map<Class<? extends StepEventListener>, List<? extends StepEventListener>> listeners;
 	@Getter
@@ -100,28 +100,46 @@ public class Step {
 		return () -> list.remove(listener);
 	}
 
+	/**
+	 * Called when the step is entered.
+	 */
 	public void enter() {
+		onEnter();
 		EnterEvent event = new EnterEvent(this);
 		getListeners(EnterStepListener.class).forEach(enterStepListener ->
-				enterStepListener.enter(event));
+				enterStepListener.onEnter(event));
 	}
 
+	protected abstract void onEnter();
+
+	/**
+	 * Called when the step is exited by hitting the back button.
+	 */
 	public void abort() {
+		onAbort();
 		AbortEvent event = new AbortEvent(this);
 		getListeners(AbortStepListener.class).forEach(abortStepListener ->
-				abortStepListener.abort(event));
+				abortStepListener.onAbort(event));
 	}
 
+	protected abstract void onAbort();
+
+	/**
+	 * Called when the step is exited by hitting the next button.
+	 */
 	public void complete() {
+		onComplete();
 		CompleteEvent event = new CompleteEvent(this);
 		getListeners(CompleteStepListener.class).forEach(completeStepListener ->
-				completeStepListener.complete(event));
+				completeStepListener.onComplete(event));
 	}
+
+	protected abstract void onComplete();
 
 	protected void updateValidationListeners(boolean isValid) {
 		ValidationChangedEvent event = new ValidationChangedEvent(this, isValid);
 		listeners.get(ValidationStepListener.class).forEach(stepEventListener -> {
-			((ValidationStepListener) stepEventListener).validationChanged(event);
+			((ValidationStepListener) stepEventListener).onValidationChange(event);
 		});
 	}
 
@@ -132,11 +150,6 @@ public class Step {
 		return registeredListeners;
 	}
 
-	public boolean isValid() {
-		if (content instanceof ValidationContent) {
-			return ((ValidationContent) content).isValid();
-		}
-		return true;
-	}
+	public abstract boolean isValid();
 
 }

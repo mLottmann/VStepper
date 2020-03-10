@@ -1,5 +1,8 @@
 package com.mlottmann.vstepper.stepEvent;
 
+/**
+ * Interface for listening to validation change events.
+ */
 public interface ValidationStepListener extends StepEventListener {
-	void validationChanged(ValidationChangedEvent event);
+	void onValidationChange(ValidationChangedEvent event);
 }

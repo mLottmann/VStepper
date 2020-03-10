@@ -27,17 +27,17 @@ public class FullContent extends StepContent {
 	}
 
 	@Override
-	public void abort(AbortEvent event) {
+	public void onAbort(AbortEvent event) {
 		add(new Label("Discard: " + input.getValue()));
 	}
 
 	@Override
-	public void complete(CompleteEvent event) {
+	public void onComplete(CompleteEvent event) {
 		add(new Label("Save: " + input.getValue()));
 	}
 
 	@Override
-	public void enter(EnterEvent event) {
+	public void onEnter(EnterEvent event) {
 		input.setValue("");
 	}
 }

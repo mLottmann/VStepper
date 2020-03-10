@@ -1,8 +1,8 @@
 package com.mlottmann.vstepper.stepEvent;
 
 /**
- * Interface for handling complete step events.
+ * Interface for listening to complete step events.
  */
 public interface CompleteStepListener extends StepEventListener {
-	void complete(CompleteEvent event);
+	void onComplete(CompleteEvent event);
 }

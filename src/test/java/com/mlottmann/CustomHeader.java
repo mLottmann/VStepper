@@ -15,17 +15,17 @@ public class CustomHeader extends VerticalLayout implements AbortStepListener, C
 	}
 
 	@Override
-	public void abort(AbortEvent event) {
+	public void onAbort(AbortEvent event) {
 		state.setText("Inactive");
 	}
 
 	@Override
-	public void complete(CompleteEvent event) {
+	public void onComplete(CompleteEvent event) {
 		state.setText("Complete");
 	}
 
 	@Override
-	public void enter(EnterEvent event) {
+	public void onEnter(EnterEvent event) {
 		state.setText("Active");
 	}
 }
