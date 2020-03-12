@@ -20,8 +20,8 @@ import java.util.List;
  * Vaadin addon for displaying a series of components one at a time.
  */
 @Tag("v-stepper")
-@JsModule("./v-stepper.js")
-public class VStepper extends PolymerTemplate<TemplateModel> implements HasSize, HasStyle {
+@JsModule("./vaadin-stepper.js")
+public class VaadinStepper extends PolymerTemplate<TemplateModel> implements HasSize, HasStyle {
 
 	private final List<Step> steps;
 	private Step currentStep;
@@ -38,7 +38,7 @@ public class VStepper extends PolymerTemplate<TemplateModel> implements HasSize,
 	private Button next;
 	private Button finish;
 
-	public VStepper() {
+	public VaadinStepper() {
 		this.steps = new ArrayList<>();
 		initFooter();
 	}
@@ -46,7 +46,7 @@ public class VStepper extends PolymerTemplate<TemplateModel> implements HasSize,
 	/**
 	 * @param components the components to display in the the different stepper steps.
 	 */
-	public VStepper(Component... components) {
+	public VaadinStepper(Component... components) {
 		this();
 		for (Component component : components) {
 			addStep(component);
@@ -56,7 +56,7 @@ public class VStepper extends PolymerTemplate<TemplateModel> implements HasSize,
 	/**
 	 * @param steps the steps to display in this stepper. A step consists of a header and a content component.
 	 */
-	public VStepper(Step... steps) {
+	public VaadinStepper(Step... steps) {
 		this();
 		for (Step step : steps) {
 			addStep(step);
@@ -71,6 +71,7 @@ public class VStepper extends PolymerTemplate<TemplateModel> implements HasSize,
 		next = new Button("Next");
 		next.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 		finish = new Button("Finish");
+		finish.setWidth("90px");
 		finish.addThemeVariants(ButtonVariant.LUMO_SUCCESS);
 
 		next.addClickListener(click -> showNextStep());

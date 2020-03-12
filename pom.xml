@@ -3,9 +3,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.mlottmann.vstepper</groupId>
-    <artifactId>vstepper</artifactId>
-    <version>1.0.3</version>
+    <groupId>com.mlottmann.VaadinStepper</groupId>
+    <artifactId>VaadinStepper</artifactId>
+    <version>1.0.4</version>
     <name>VStepper</name>
 
     <properties>
