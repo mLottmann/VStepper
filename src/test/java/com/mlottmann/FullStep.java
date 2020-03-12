@@ -36,7 +36,7 @@ public class FullStep extends Step {
 	private void inputChanged() {
 		if (isValid != isValid()) {
 			isValid = isValid();
-			updateValidationListeners(isValid);
+			updateValidationListeners();
 		}
 	}
 

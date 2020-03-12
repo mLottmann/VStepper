@@ -19,7 +19,7 @@ import java.util.List;
  * <p>
  * Vaadin addon for displaying a series of components one at a time.
  */
-@Tag("v-stepper")
+@Tag("vaadin-stepper")
 @JsModule("./vaadin-stepper.js")
 public class VaadinStepper extends PolymerTemplate<TemplateModel> implements HasSize, HasStyle {
 
@@ -104,11 +104,20 @@ public class VaadinStepper extends PolymerTemplate<TemplateModel> implements Has
 
 	private void updateButtons() {
 		if (currentStep != null) {
-			next.setVisible(!isLastStep(currentStep));
-			next.setEnabled(currentStep.isValid());
-			back.setVisible(!isFirstStep(currentStep));
-			finish.setVisible(isLastStep(currentStep));
+			updateButtonVisibility();
+			updateButtonEnabledState();
 		}
+	}
+
+	private void updateButtonVisibility() {
+		next.setVisible(!isLastStep(currentStep));
+		back.setVisible(!isFirstStep(currentStep));
+		finish.setVisible(isLastStep(currentStep));
+	}
+
+	private void updateButtonEnabledState() {
+		next.setEnabled(currentStep.isValid());
+		finish.setEnabled(currentStep.isValid());
 	}
 
 	private Step getNextStep(Step step) {
@@ -172,7 +181,7 @@ public class VaadinStepper extends PolymerTemplate<TemplateModel> implements Has
 	 */
 	public void addStep(Step step) throws IllegalArgumentException {
 		checkStep(step);
-		step.addValidationListener(event -> next.setEnabled(event.isValid()));
+		step.addValidationListener(event -> updateButtonEnabledState());
 		header.add(step.getHeader());
 		steps.add(step);
 		if (currentStep == null) {
