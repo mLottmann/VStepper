@@ -68,7 +68,7 @@ public abstract class Step {
 	private void listenTo(Component component) {
 		if (this.content instanceof ValidationContent) {
 			((ValidationContent) content)
-					.addValidationListener(isValid -> updateValidationListeners(isValid));
+					.addValidationListener(isValid -> updateValidationListeners());
 		}
 	}
 
