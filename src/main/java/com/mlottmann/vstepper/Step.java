@@ -136,8 +136,8 @@ public abstract class Step {
 
 	protected abstract void onComplete();
 
-	protected void updateValidationListeners(boolean isValid) {
-		ValidationChangedEvent event = new ValidationChangedEvent(this, isValid);
+	protected void updateValidationListeners() {
+		ValidationChangedEvent event = new ValidationChangedEvent(this, isValid());
 		listeners.get(ValidationStepListener.class).forEach(stepEventListener -> {
 			((ValidationStepListener) stepEventListener).onValidationChange(event);
 		});
