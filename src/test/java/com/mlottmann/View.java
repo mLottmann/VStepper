@@ -1,7 +1,7 @@
 package com.mlottmann;
 
 import com.mlottmann.vstepper.Step;
-import com.mlottmann.vstepper.VaadinStepper;
+import com.mlottmann.vstepper.VStepper;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.html.Label;
@@ -15,37 +15,37 @@ import com.vaadin.flow.router.Route;
 public class View extends VerticalLayout {
 
 	public View() {
-		VaadinStepper simpleUse = createSimpleUseTest();
+		VStepper simpleUse = createSimpleUseTest();
 		simpleUse.setWidth("500px");
 		simpleUse.setHeight("350px");
 		add(new Label("Simple Use:"), simpleUse);
 
-		VaadinStepper headerCaptions = createHeaderCaptionsTest();
+		VStepper headerCaptions = createHeaderCaptionsTest();
 		headerCaptions.setWidth("500px");
 		headerCaptions.setHeight("350px");
 		add(new Label("Header Captions:"), headerCaptions);
 
-		VaadinStepper headerComponents = createHeaderComponentsTest();
+		VStepper headerComponents = createHeaderComponentsTest();
 		headerComponents.setWidth("500px");
 		headerComponents.setHeight("350px");
 		add(new Label("Header Components:"), headerComponents);
 
-		VaadinStepper customHeader = createCustomHeadersTest();
+		VStepper customHeader = createCustomHeadersTest();
 		customHeader.setWidth("500px");
 		customHeader.setHeight("350px");
 		add(new Label("Custom Header:"), headerComponents);
 
-		VaadinStepper fullContent = createFullContentTest();
+		VStepper fullContent = createFullContentTest();
 		fullContent.setWidth("500px");
 		fullContent.setHeight("350px");
 		add(new Label("Complex Content:"), fullContent);
 
-		VaadinStepper fullStep = createFullStepTest();
+		VStepper fullStep = createFullStepTest();
 		fullStep.setWidth("500px");
 		fullStep.setHeight("350px");
 		add(new Label("Custom Step:"), fullStep);
 
-		VaadinStepper show = createShowTest();
+		VStepper show = createShowTest();
 		show.setWidth("500px");
 		show.setHeight("350px");
 		add(new Label("Pretty Example:"), show);
@@ -55,16 +55,16 @@ public class View extends VerticalLayout {
 		setAlignItems(Alignment.CENTER);
 	}
 
-	private VaadinStepper createSimpleUseTest() {
-		VaadinStepper simpleUse = new VaadinStepper();
+	private VStepper createSimpleUseTest() {
+		VStepper simpleUse = new VStepper();
 		simpleUse.addStep(new Label("Step 1"));
 		simpleUse.addStep(new Label("Step 2"));
 		simpleUse.addStep(new Label("Step 3"));
 		return simpleUse;
 	}
 
-	private VaadinStepper createHeaderCaptionsTest() {
-		VaadinStepper customHeaderCaptions = new VaadinStepper();
+	private VStepper createHeaderCaptionsTest() {
+		VStepper customHeaderCaptions = new VStepper();
 		customHeaderCaptions.addStep("Step 1", new Label("Step 1"));
 		customHeaderCaptions.addStep("Step 2", new Label("Step 2"));
 		customHeaderCaptions.addStep("Step 3", new Label("Step 3"));
@@ -72,8 +72,8 @@ public class View extends VerticalLayout {
 		return customHeaderCaptions;
 	}
 
-	private VaadinStepper createHeaderComponentsTest() {
-		VaadinStepper headerComponents = new VaadinStepper();
+	private VStepper createHeaderComponentsTest() {
+		VStepper headerComponents = new VStepper();
 		headerComponents.addStep(new Label("Header 1"), new Label("Step 1"));
 		TextField header2 = new TextField();
 		header2.setValue("Header 2");
@@ -82,24 +82,24 @@ public class View extends VerticalLayout {
 		return headerComponents;
 	}
 
-	private VaadinStepper createCustomHeadersTest() {
-		VaadinStepper customHeaders = new VaadinStepper();
+	private VStepper createCustomHeadersTest() {
+		VStepper customHeaders = new VStepper();
 		customHeaders.addStep(new CustomHeader("Step 1"), new Label("Step 1"));
 		customHeaders.addStep(new CustomHeader("Step 2"), new Label("Step 2"));
 		customHeaders.addStep(new CustomHeader("Step 3"), new Label("Step 3"));
 		return customHeaders;
 	}
 
-	private VaadinStepper createFullContentTest() {
-		VaadinStepper fullContentTest = new VaadinStepper();
+	private VStepper createFullContentTest() {
+		VStepper fullContentTest = new VStepper();
 		fullContentTest.addStep("Step 1", new FullContent());
 		fullContentTest.addStep("Step 2", new FullContent());
 		fullContentTest.addStep("Step 3", new FullContent());
 		return fullContentTest;
 	}
 
-	private VaadinStepper createCustomStepsTest() {
-		VaadinStepper customSteps = new VaadinStepper();
+	private VStepper createCustomStepsTest() {
+		VStepper customSteps = new VStepper();
 		customSteps.addStep(createStep(new Label("Step 1"), new Label("Step 1")));
 		customSteps.addStep(createStep(new Label("Step 2"), new Label("Step 2")));
 		customSteps.addStep(createStep(new Label("Step 3"), new Label("Step 3")));
@@ -127,16 +127,16 @@ public class View extends VerticalLayout {
 		};
 	}
 
-	private VaadinStepper createFullStepTest() {
-		VaadinStepper customStepTest = new VaadinStepper();
+	private VStepper createFullStepTest() {
+		VStepper customStepTest = new VStepper();
 		customStepTest.addStep(new FullStep("Step 1"));
 		customStepTest.addStep(new FullStep("Step 2"));
 		customStepTest.addStep(new FullStep("Step 3"));
 		return customStepTest;
 	}
 
-	private VaadinStepper createShowTest() {
-		VaadinStepper showTest = new VaadinStepper();
+	private VStepper createShowTest() {
+		VStepper showTest = new VStepper();
 		showTest.addStep("Personal Info", createPersonalInfoForm());
 		showTest.addStep("Address", createAddressForm());
 		showTest.addStep("Confirmation", createConfirmation());

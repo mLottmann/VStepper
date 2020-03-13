@@ -4,7 +4,7 @@ import '@vaadin/vaadin-lumo-styles/spacing.js';
 import './styles/stepper-styles.js'
 import './styles/step-header-styles.js'
 
-class VaadinStepper extends PolymerElement {
+class VStepper extends PolymerElement {
     static get template() {
         return html`
             <style include="stepper-styles step-header-styles lumo-color lumo-spacing"></style>
@@ -15,4 +15,4 @@ class VaadinStepper extends PolymerElement {
     }
 }
 
-window.customElements.define('vaadin-stepper', VaadinStepper);
+window.customElements.define('v-stepper', VStepper);

@@ -19,9 +19,9 @@ import java.util.List;
  * <p>
  * Vaadin addon for displaying a series of components one at a time.
  */
-@Tag("vaadin-stepper")
-@JsModule("./vaadin-stepper.js")
-public class VaadinStepper extends PolymerTemplate<TemplateModel> implements HasSize, HasStyle {
+@Tag("v-stepper")
+@JsModule("./v-stepper.js")
+public class VStepper extends PolymerTemplate<TemplateModel> implements HasSize, HasStyle {
 
 	private final List<Step> steps;
 	private Step currentStep;
@@ -38,7 +38,7 @@ public class VaadinStepper extends PolymerTemplate<TemplateModel> implements Has
 	private Button next;
 	private Button finish;
 
-	public VaadinStepper() {
+	public VStepper() {
 		this.steps = new ArrayList<>();
 		initFooter();
 	}
@@ -46,7 +46,7 @@ public class VaadinStepper extends PolymerTemplate<TemplateModel> implements Has
 	/**
 	 * @param components the components to display in the the different stepper steps.
 	 */
-	public VaadinStepper(Component... components) {
+	public VStepper(Component... components) {
 		this();
 		for (Component component : components) {
 			addStep(component);
@@ -56,7 +56,7 @@ public class VaadinStepper extends PolymerTemplate<TemplateModel> implements Has
 	/**
 	 * @param steps the steps to display in this stepper. A step consists of a header and a content component.
 	 */
-	public VaadinStepper(Step... steps) {
+	public VStepper(Step... steps) {
 		this();
 		for (Step step : steps) {
 			addStep(step);
