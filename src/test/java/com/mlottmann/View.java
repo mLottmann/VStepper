@@ -4,6 +4,7 @@ import com.mlottmann.vstepper.Step;
 import com.mlottmann.vstepper.VStepper;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.datepicker.DatePicker;
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -12,6 +13,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 
 @Route("")
+@CssImport(value = "./styles/test-styles.css", themeFor = "v-stepper")
 public class View extends VerticalLayout {
 
 	public View() {
@@ -33,7 +35,7 @@ public class View extends VerticalLayout {
 		VStepper customHeader = createCustomHeadersTest();
 		customHeader.setWidth("500px");
 		customHeader.setHeight("350px");
-		add(new Label("Custom Header:"), headerComponents);
+		add(new Label("Custom Header:"), customHeader);
 
 		VStepper fullContent = createFullContentTest();
 		fullContent.setWidth("500px");

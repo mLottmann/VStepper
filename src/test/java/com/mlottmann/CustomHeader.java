@@ -1,16 +1,17 @@
 package com.mlottmann;
 
 import com.mlottmann.vstepper.stepEvent.*;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
-public class CustomHeader extends VerticalLayout implements AbortStepListener, CompleteStepListener, EnterStepListener {
+public class CustomHeader extends Div implements AbortStepListener, CompleteStepListener, EnterStepListener {
 
 	private Label state;
 
 	public CustomHeader(String name) {
 		Label caption = new Label(name);
 		state = new Label("Inactive");
+		addClassName("custom-header");
 		add(caption, state);
 	}
 
