@@ -14,6 +14,10 @@ class VStepper extends ThemableMixin(PolymerElement) {
             <div id="footer" class="footer" part="footer"></div>
         `;
     }
+
+    static get is() {
+        return 'v-stepper';
+    }
 }
 
 window.customElements.define('v-stepper', VStepper);

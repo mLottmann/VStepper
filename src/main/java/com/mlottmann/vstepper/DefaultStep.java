@@ -25,6 +25,7 @@ class DefaultStep extends Step {
 
 	@Override
 	public boolean isValid() {
+		Component content = getContent();
 		if (content instanceof ValidationContent) {
 			return ((ValidationContent) content).isValid();
 		}

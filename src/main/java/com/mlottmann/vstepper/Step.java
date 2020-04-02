@@ -17,9 +17,9 @@ public abstract class Step {
 
 	private Map<Class<? extends StepEventListener>, List<? extends StepEventListener>> listeners;
 	@Getter
-	protected Component header;
+	private Component header;
 	@Getter
-	protected Component content;
+	private Component content;
 
 	public Step() {
 		this.listeners = new HashMap<>();
@@ -31,12 +31,22 @@ public abstract class Step {
 		setContent(content);
 	}
 
+	/**
+	 * Sets the header component of this step and registers it as a listener if necessary.
+	 *
+	 * @param header the header component of this step.
+	 */
 	public void setHeader(Component header) {
 		removeListener(this.header);
 		this.header = header;
 		addListener(this.header);
 	}
 
+	/**
+	 * Sets the content component of this step and registers it as a listener if necessary.
+	 *
+	 * @param content the content component of this step.
+	 */
 	public void setContent(Component content) {
 		removeListener(this.content);
 		this.content = content;

@@ -1,0 +1,5 @@
+:host(.display) [part="input-field"]::after {
+    border-style: none;
+    border-width: 0px;
+    border-color: white;
+}

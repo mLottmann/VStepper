@@ -76,6 +76,7 @@ public class VStepper extends PolymerTemplate<TemplateModel> implements HasSize,
 
 		next.addClickListener(click -> showNextStep());
 		back.addClickListener(click -> showPreviousStep());
+		finish.addClickListener(click -> currentStep.complete());
 
 		back.setVisible(false);
 		finish.setVisible(false);
@@ -159,7 +160,7 @@ public class VStepper extends PolymerTemplate<TemplateModel> implements HasSize,
 	 * @param stepContent the content to display when the corresponding step is reached.
 	 */
 	public void addStep(String stepTitle, Component stepContent) {
-		StepHeader stepHeader = new StepHeader(steps.size() + 1, stepTitle);
+		StepHeader stepHeader = new DefaultStepHeader(steps.size() + 1, stepTitle);
 		addStep(stepHeader, stepContent);
 	}
 
