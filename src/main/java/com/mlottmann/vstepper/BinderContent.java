@@ -16,9 +16,8 @@ public class BinderContent<T> extends StepContent {
 	@Setter
 	private T value;
 
-	public BinderContent(Binder<T> binder, T value, Component... components) {
+	public BinderContent(Binder<T> binder, Component... components) {
 		this.binder = binder;
-		this.value = value;
 		this.binder.addValueChangeListener(valueChangeEvent -> stepChanged());
 		add(components);
 	}
@@ -44,6 +43,9 @@ public class BinderContent<T> extends StepContent {
 
 	@Override
 	public void onEnter(EnterEvent event) {
+		if (value == null) {
+			throw new NullPointerException("Set the value before entering the view.");
+		}
 		binder.readBean(value);
 	}
 }

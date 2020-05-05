@@ -9,6 +9,7 @@ import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
@@ -25,7 +26,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
-@Route("")
+@Route("demo")
 @CssImport(value = "./styles/stepper-test-styles.css", themeFor = "v-stepper")
 @CssImport(value = "./styles/textfield-test-styles.css", themeFor = "vaadin-text-field")
 public class View extends DemoView {
@@ -46,6 +47,7 @@ public class View extends DemoView {
 	// source-example-heading: Full Demo
 	private void fullDemo() {
 		VStepper stepper = new VStepper();
+		stepper.getNext().setIcon(VaadinIcon.COG.create());
 		stepper.setHeight("400px");
 		Person person = new Person();
 		Address address = new Address();
@@ -61,8 +63,9 @@ public class View extends DemoView {
 		Div lastName = createLastNameRow(binder);
 		Div birthDate = createBirthDateRow(binder);
 
-		StepContent content = new BinderContent<>(binder, person,
+		BinderContent<Person> content = new BinderContent<>(binder,
 				firstName, lastName, birthDate);
+		content.setValue(person);
 		content.addClassName("custom-content");
 		content.setWidth("100%");
 		content.setHeight("200px");
@@ -116,8 +119,9 @@ public class View extends DemoView {
 		Div postalCode = createPostalCodeRow(binder);
 		Div country = createCountryRow(binder);
 
-		StepContent content = new BinderContent<>(binder, address,
+		BinderContent<Address> content = new BinderContent(binder,
 				streetName, postalCode, country);
+		content.setValue(address);
 		content.addClassName("custom-content");
 		content.setWidth("100%");
 		content.setHeight("200px");

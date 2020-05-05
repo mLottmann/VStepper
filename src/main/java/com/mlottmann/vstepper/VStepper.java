@@ -10,6 +10,7 @@ import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import com.vaadin.flow.shared.Registration;
 import com.vaadin.flow.templatemodel.TemplateModel;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,9 +34,13 @@ public class VStepper extends PolymerTemplate<TemplateModel> implements HasSize,
 	@Id
 	private Div footer;
 
+	@Getter
 	private Button cancel;
+	@Getter
 	private Button back;
+	@Getter
 	private Button next;
+	@Getter
 	private Button finish;
 
 	public VStepper() {
@@ -237,5 +242,22 @@ public class VStepper extends PolymerTemplate<TemplateModel> implements HasSize,
 	public Registration addFinishListener(ComponentEventListener<ClickEvent<Button>> listener) {
 		return finish.addClickListener(listener);
 	}
+
+	public void setCancelText(String text) {
+		cancel.setText(text);
+	}
+
+	public void setNextText(String text) {
+		next.setText(text);
+	}
+
+	public void setBackText(String text) {
+		back.setText(text);
+	}
+
+	public void setFinishText(String text) {
+		finish.setText(text);
+	}
+
 
 }
