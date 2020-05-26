@@ -26,6 +26,7 @@ public class VStepper extends PolymerTemplate<TemplateModel> implements HasSize,
 
 	private final List<Step> steps;
 	private Step currentStep;
+	private ValidationMode validationMode = ValidationMode.ON_CHANGE;
 
 	@Id
 	private Div header;
@@ -89,9 +90,11 @@ public class VStepper extends PolymerTemplate<TemplateModel> implements HasSize,
 	}
 
 	private void showNextStep() {
-		currentStep.complete();
-		Step nextStep = getNextStep(currentStep);
-		changeStep(nextStep);
+		if (currentStep.isValid()) {
+			currentStep.complete();
+			Step nextStep = getNextStep(currentStep);
+			changeStep(nextStep);
+		}
 	}
 
 	private void showPreviousStep() {
@@ -122,8 +125,10 @@ public class VStepper extends PolymerTemplate<TemplateModel> implements HasSize,
 	}
 
 	private void updateButtonEnabledState() {
-		next.setEnabled(currentStep.isValid());
-		finish.setEnabled(currentStep.isValid());
+		if (validationMode == ValidationMode.ON_CHANGE) {
+			next.setEnabled(currentStep.isValid());
+			finish.setEnabled(currentStep.isValid());
+		}
 	}
 
 	private Step getNextStep(Step step) {
@@ -259,5 +264,10 @@ public class VStepper extends PolymerTemplate<TemplateModel> implements HasSize,
 		finish.setText(text);
 	}
 
+	public void setValidationMode(ValidationMode validationMode) {
+		this.validationMode = validationMode;
+		next.setEnabled(validationMode == ValidationMode.ON_NEXT || currentStep.isValid());
+		finish.setEnabled(validationMode == ValidationMode.ON_NEXT || currentStep.isValid());
+	}
 
 }

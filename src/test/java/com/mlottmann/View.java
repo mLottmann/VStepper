@@ -384,6 +384,7 @@ public class View extends DemoView {
 		stepper.addStep("Step 3", new CustomContent());
 		stepper.addFinishListener(buttonClickEvent ->
 				Notification.show("Finished", 1000, Notification.Position.MIDDLE));
+		stepper.setValidationMode(ValidationMode.ON_NEXT);
 		addCard("Advanced Usage", "Custom Content", stepper);
 	}
 
