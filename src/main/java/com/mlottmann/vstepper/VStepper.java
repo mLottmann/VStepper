@@ -211,6 +211,7 @@ public class VStepper extends PolymerTemplate<TemplateModel> implements HasSize,
    */
   public void addStep(Step step) throws IllegalArgumentException {
     checkStep(step);
+    step.addStepNavigationListener(event -> setCurrentStep(event.getStep()));
     step.addValidationListener(event -> updateButtonEnabledState());
     header.add(step.getHeader());
     steps.add(step);
@@ -224,6 +225,16 @@ public class VStepper extends PolymerTemplate<TemplateModel> implements HasSize,
     if (step.getContent() == null) {
       throw new IllegalArgumentException("Step content can not be null.");
     }
+  }
+
+  public void setCurrentStep(Step step) {
+    if (steps.contains(step)) {
+      changeStep(step);
+    }
+  }
+
+  public void enableHeaderNavigation(boolean enabled) {
+
   }
 
   /**
