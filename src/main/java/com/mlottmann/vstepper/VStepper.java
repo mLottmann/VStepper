@@ -83,7 +83,7 @@ public class VStepper extends PolymerTemplate<TemplateModel> implements HasSize,
     if (getParent().isPresent() && !steps.isEmpty() && currentStep == null) {
       currentStep = steps.get(0);
       currentStep.enter();
-      next.setEnabled(currentStep.isValid());
+      next.setEnabled(validationMode == ValidationMode.ON_NEXT || currentStep.isValid());
       content.add(currentStep.getContent());
     }
   }
