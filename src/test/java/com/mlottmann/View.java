@@ -50,6 +50,7 @@ public class View extends DemoView {
     customHeadersDemo();
     customContentDemo();
     customStepDemo();
+    customStepValidationModeNextDemo();
     setParameter(null, "full-demo");
   }
 
@@ -508,6 +509,73 @@ public class View extends DemoView {
     @Override
     public boolean isValid() {
       return input.getValue() != null && !input.getValue().isEmpty();
+    }
+  }
+  // end-source-example
+
+  // begin-source-example
+  // source-example-heading: Custom Steps with ValidationMode.ON_NEXT
+  private void customStepValidationModeNextDemo() {
+    VStepper stepper = new VStepper();
+    stepper.addStep(new CustomStepWithValidationMessage("Step 1"));
+    stepper.addStep(new CustomStepWithValidationMessage("Step 2"));
+    stepper.setValidationMode(ValidationMode.ON_NEXT);
+    stepper.addFinishListener(buttonClickEvent ->
+            Notification.show("Finished", 1000, Notification.Position.MIDDLE));
+    addCard("Advanced Usage", "Custom Steps with ValidationMode.ON_NEXT", stepper);
+  }
+
+  public class CustomStepWithValidationMessage extends Step {
+
+    private Label inputValue;
+    private TextField input;
+
+    public CustomStepWithValidationMessage(String title) {
+      setHeader(createHeader(title));
+      setContent(createContent());
+    }
+
+    private Div createHeader(String title) {
+      Label headerTitle = new Label(title);
+      inputValue = new Label("-");
+      StepHeader header = new StepHeader(headerTitle, inputValue);
+      header.addClassName("custom-header");
+      return header;
+    }
+
+    private Div createContent() {
+      input = new TextField("Input");
+      input.setPlaceholder("Enter something to move on.");
+      input.setWidth("250px");
+      Div content = new Div(input);
+      content.addClassName("custom-content");
+      return content;
+    }
+
+    @Override
+    public void onEnter() {
+      inputValue.setText("-");
+    }
+
+    @Override
+    public void onAbort() {
+      input.setValue("");
+      inputValue.setText("-");
+    }
+
+    @Override
+    public void onComplete() {
+      inputValue.setText(input.getValue());
+    }
+
+    @Override
+    public boolean isValid() {
+      if(input.getValue() != null && !input.getValue().isEmpty()) {
+        return true;
+      }
+      // should be displayed on next click only
+      Notification.show("input required", 3000, Notification.Position.MIDDLE);
+      return false;
     }
   }
   // end-source-example
