@@ -9,7 +9,7 @@
     <name>VStepper</name>
 
     <properties>
-        <vaadin.version>14.1.3</vaadin.version>
+        <vaadin.version>14.6.8</vaadin.version>
         <lombok.version>1.18.10</lombok.version>
 
         <maven.compiler.source>1.8</maven.compiler.source>
