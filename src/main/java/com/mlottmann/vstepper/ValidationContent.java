@@ -7,7 +7,7 @@ import java.util.function.Consumer;
  * Implemented by steps that need validation before moving on to the next step.
  */
 public interface ValidationContent {
-	void addValidationListener(Consumer<Boolean> validationListener);
+    void addValidationListener(Consumer<Boolean> validationListener);
 
-	boolean isValid();
+    boolean isValid();
 }

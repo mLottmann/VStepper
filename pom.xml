@@ -9,16 +9,13 @@
     <name>VStepper</name>
 
     <properties>
-        <vaadin.version>14.1.3</vaadin.version>
-        <lombok.version>1.18.10</lombok.version>
-
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <lombok.version>1.18.22</lombok.version>
         <drivers.dir>${project.basedir}/drivers</drivers.dir>
-
+        <vaadin.version>22.0.4</vaadin.version>
         <jetty.version>9.4.15.v20190215</jetty.version>
     </properties>
     <organization>
@@ -27,7 +24,7 @@
     <licenses>
         <license>
             <name>Apache 2</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
             <distribution>repo</distribution>
         </license>
     </licenses>
@@ -62,7 +59,7 @@
         <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>flow-component-demo-helpers</artifactId>
-            <version>2.1.6</version>
+            <version>9.0.5</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

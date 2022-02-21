@@ -7,10 +7,11 @@ import com.mlottmann.vstepper.Step;
 
 /**
  * com.mlottmann.vstepper.stepEvent.NavigationEvent, created on 15.12.20 13:34 <p>
+ *
  * @author mLottmann
  */
 public class StepNavigationEvent extends StepEvent {
-  public StepNavigationEvent(Step step) {
-    super(step);
-  }
+    public StepNavigationEvent(Step step) {
+        super(step);
+    }
 }

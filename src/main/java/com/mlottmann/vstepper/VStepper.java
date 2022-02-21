@@ -30,270 +30,272 @@ import java.util.List;
 @JsModule("./v-stepper.js")
 public class VStepper extends PolymerTemplate<TemplateModel> implements HasSize, HasStyle {
 
-  private final List<Step> steps;
-  private Step currentStep;
-  private ValidationMode validationMode = ValidationMode.ON_CHANGE;
+    private final List<Step> steps;
+    private Step currentStep;
+    private ValidationMode validationMode = ValidationMode.ON_CHANGE;
 
-  @Id
-  private Div header;
-  @Id
-  private Div content;
-  @Id
-  private Div footer;
+    @Id
+    @Getter
+    private Div header;
+    @Id
+    private Div content;
+    @Id
+    @Getter
+    private Div footer;
 
-  @Getter
-  private Button cancel;
-  @Getter
-  private Button back;
-  @Getter
-  private Button next;
-  @Getter
-  private Button finish;
+    @Getter
+    private Button cancel;
+    @Getter
+    private Button back;
+    @Getter
+    private Button next;
+    @Getter
+    private Button finish;
 
-  public VStepper() {
-    this.steps = new ArrayList<>();
-    initFooter();
-  }
-
-  /**
-   * @param components the components to display in the the different stepper steps.
-   */
-  public VStepper(Component... components) {
-    this();
-    for (Component component : components) {
-      addStep(component);
+    public VStepper() {
+        this.steps = new ArrayList<>();
+        initFooter();
     }
-  }
 
-  /**
-   * @param steps the steps to display in this stepper. A step consists of a header and a content component.
-   */
-  public VStepper(Step... steps) {
-    this();
-    for (Step step : steps) {
-      addStep(step);
+    /**
+     * @param components the components to display in the the different stepper steps.
+     */
+    public VStepper(Component... components) {
+        this();
+        for (Component component : components) {
+            addStep(component);
+        }
     }
-  }
 
-  /**
-   * Set the first step.
-   * Only happens when the component is attached, at least one step is available and there is no current step.
-   */
-  protected void initialize() {
-    if (getParent().isPresent() && !steps.isEmpty() && currentStep == null) {
-      currentStep = steps.get(0);
-      currentStep.enter();
-      next.setEnabled(currentStep.isValid());
-      content.add(currentStep.getContent());
+    /**
+     * @param steps the steps to display in this stepper. A step consists of a header and a content component.
+     */
+    public VStepper(Step... steps) {
+        this();
+        for (Step step : steps) {
+            addStep(step);
+        }
     }
-  }
 
-  private void initFooter() {
-    cancel = new Button("Cancel");
-    cancel.addThemeVariants(ButtonVariant.LUMO_ERROR);
-    back = new Button("Back");
-    back.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
-    next = new Button("Next");
-    next.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-    finish = new Button("Finish");
-    finish.setWidth("90px");
-    finish.addThemeVariants(ButtonVariant.LUMO_SUCCESS);
+    private void initFooter() {
+        cancel = new Button("Cancel");
+        cancel.addThemeVariants(ButtonVariant.LUMO_ERROR);
+        back = new Button("Back");
+        back.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
+        next = new Button("Next");
+        next.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        finish = new Button("Finish");
+        finish.setWidth("90px");
+        finish.addThemeVariants(ButtonVariant.LUMO_SUCCESS);
 
-    next.addClickListener(click -> showNextStep());
-    back.addClickListener(click -> showPreviousStep());
-    finish.addClickListener(click -> currentStep.complete());
+        next.addClickListener(click -> showNextStep());
+        back.addClickListener(click -> showPreviousStep());
+        finish.addClickListener(click -> currentStep.complete());
 
-    back.setVisible(false);
-    finish.setVisible(false);
-    setCancelVisible(false);
-  }
-
-  private void showNextStep() {
-    if (currentStep.isValid()) {
-      currentStep.complete();
-      Step nextStep = getNextStep(currentStep);
-      changeStep(nextStep);
+        back.setVisible(false);
+        finish.setVisible(false);
+        setCancelVisible(false);
     }
-  }
 
-  private void showPreviousStep() {
-    currentStep.abort();
-    Step previousStep = getPreviousStep(currentStep);
-    changeStep(previousStep);
-  }
-
-  private void changeStep(Step newStep) {
-    content.removeAll();
-    currentStep = newStep;
-    currentStep.enter();
-    content.add(currentStep.getContent());
-    updateButtons();
-  }
-
-  private void updateButtons() {
-    if (currentStep != null) {
-      updateButtonVisibility();
-      updateButtonEnabledState();
+    private void showNextStep() {
+        if (currentStep.isValid()) {
+            currentStep.complete();
+            Step nextStep = getNextStep(currentStep);
+            changeStep(nextStep);
+        }
     }
-  }
 
-  private void updateButtonVisibility() {
-    next.setVisible(!isLastStep(currentStep));
-    back.setVisible(!isFirstStep(currentStep));
-    finish.setVisible(isLastStep(currentStep));
-  }
-
-  private void updateButtonEnabledState() {
-    if (validationMode == ValidationMode.ON_CHANGE) {
-      next.setEnabled(currentStep.isValid());
-      finish.setEnabled(currentStep.isValid());
+    private void showPreviousStep() {
+        currentStep.abort();
+        Step previousStep = getPreviousStep(currentStep);
+        changeStep(previousStep);
     }
-  }
 
-  private Step getNextStep(Step step) {
-    if (isLastStep(step)) {
-      return step;
+    private void changeStep(Step newStep) {
+        content.removeAll();
+        currentStep = newStep;
+        currentStep.enter();
+        content.add(currentStep.getContent());
+        updateButtons();
     }
-    return steps.get(steps.indexOf(step) + 1);
-  }
 
-  private Step getPreviousStep(Step step) {
-    if (isFirstStep(step)) {
-      return step;
+    private void updateButtons() {
+        if (currentStep != null) {
+            updateButtonVisibility();
+            updateButtonEnabledState();
+        }
     }
-    return steps.get(steps.indexOf(step) - 1);
-  }
 
-  private boolean isFirstStep(Step step) {
-    return steps.indexOf(step) == 0;
-  }
-
-  private boolean isLastStep(Step step) {
-    return steps.indexOf(step) == steps.size() - 1;
-  }
-
-  /**
-   * Adds a new step with the given content component and a default header component to the stepper.
-   *
-   * @param stepContent the content to display when the corresponding step is reached.
-   */
-  public void addStep(Component stepContent) {
-    addStep("", stepContent);
-  }
-
-  /**
-   * Adds a new step with the given content component and a default header component with the given title to
-   * the stepper.
-   *
-   * @param stepTitle   the title to display in the default header component.
-   * @param stepContent the content to display when the corresponding step is reached.
-   */
-  public void addStep(String stepTitle, Component stepContent) {
-    StepHeader stepHeader = new DefaultStepHeader(steps.size() + 1, stepTitle);
-    addStep(stepHeader, stepContent);
-  }
-
-  /**
-   * Adds a new step with the given header component and content component to the stepper.
-   *
-   * @param stepHeader  the header component of this step to display in the header of the stepper.
-   * @param stepContent the content to display when the corresponding step is reached.
-   */
-  public void addStep(Component stepHeader, Component stepContent) {
-    Step step = new DefaultStep(stepHeader, stepContent);
-    addStep(step);
-  }
-
-  /**
-   * Adds the given step to the stepper.
-   *
-   * @param step the step to add to the stepper. Each step consists of a header and a content component.
-   */
-  public void addStep(Step step) throws IllegalArgumentException {
-    checkStep(step);
-    step.addStepNavigationListener(event -> setCurrentStep(event.getStep()));
-    step.addValidationListener(event -> updateButtonEnabledState());
-    header.add(step.getHeader());
-    steps.add(step);
-    initialize();
-  }
-
-  private void checkStep(Step step) throws IllegalArgumentException {
-    if (step.getHeader() == null) {
-      throw new IllegalArgumentException("Step header can not be null.");
+    private void updateButtonVisibility() {
+        next.setVisible(!isLastStep(currentStep));
+        back.setVisible(!isFirstStep(currentStep));
+        finish.setVisible(isLastStep(currentStep));
     }
-    if (step.getContent() == null) {
-      throw new IllegalArgumentException("Step content can not be null.");
+
+    private void updateButtonEnabledState() {
+        if (validationMode == ValidationMode.ON_CHANGE) {
+            next.setEnabled(currentStep.isValid());
+            finish.setEnabled(currentStep.isValid());
+        }
     }
-  }
 
-  public void setCurrentStep(Step step) {
-    if (steps.contains(step)) {
-      changeStep(step);
+    private Step getNextStep(Step step) {
+        if (isLastStep(step)) {
+            return step;
+        }
+        return steps.get(steps.indexOf(step) + 1);
     }
-  }
 
-  public void enableHeaderNavigation(boolean enabled) {
-
-  }
-
-  /**
-   * Sets the visibility of the cancel button in the footer. Also affects the layout of the footer.
-   *
-   * @param visible
-   */
-  public void setCancelVisible(boolean visible) {
-    footer.removeAll();
-    cancel.setVisible(visible);
-    if (visible) {
-      footer.add(cancel, new HorizontalLayout(back, next, finish));
-    } else {
-      footer.add(back, new Div(), new HorizontalLayout(next, finish));
+    private Step getPreviousStep(Step step) {
+        if (isFirstStep(step)) {
+            return step;
+        }
+        return steps.get(steps.indexOf(step) - 1);
     }
-  }
 
-  public Registration addCancelListener(ComponentEventListener<ClickEvent<Button>> listener) {
-    setCancelVisible(true);
-    return cancel.addClickListener(listener);
-  }
+    private boolean isFirstStep(Step step) {
+        return steps.indexOf(step) == 0;
+    }
 
-  public Registration addNextListener(ComponentEventListener<ClickEvent<Button>> listener) {
-    return next.addClickListener(listener);
-  }
+    private boolean isLastStep(Step step) {
+        return steps.indexOf(step) == steps.size() - 1;
+    }
 
-  public Registration addBackListener(ComponentEventListener<ClickEvent<Button>> listener) {
-    return back.addClickListener(listener);
-  }
+    /**
+     * Adds a new step with the given content component and a default header component to the stepper.
+     *
+     * @param stepContent the content to display when the corresponding step is reached.
+     */
+    public void addStep(Component stepContent) {
+        addStep("", stepContent);
+    }
 
-  public Registration addFinishListener(ComponentEventListener<ClickEvent<Button>> listener) {
-    return finish.addClickListener(listener);
-  }
+    /**
+     * Adds a new step with the given content component and a default header component with the given title to
+     * the stepper.
+     *
+     * @param stepTitle   the title to display in the default header component.
+     * @param stepContent the content to display when the corresponding step is reached.
+     */
+    public void addStep(String stepTitle, Component stepContent) {
+        StepHeader stepHeader = new DefaultStepHeader(steps.size() + 1, stepTitle);
+        addStep(stepHeader, stepContent);
+    }
 
-  public void setCancelText(String text) {
-    cancel.setText(text);
-  }
+    /**
+     * Adds a new step with the given header component and content component to the stepper.
+     *
+     * @param stepHeader  the header component of this step to display in the header of the stepper.
+     * @param stepContent the content to display when the corresponding step is reached.
+     */
+    public void addStep(Component stepHeader, Component stepContent) {
+        Step step = new DefaultStep(stepHeader, stepContent);
+        addStep(step);
+    }
 
-  public void setNextText(String text) {
-    next.setText(text);
-  }
+    /**
+     * Adds the given step to the stepper.
+     *
+     * @param step the step to add to the stepper. Each step consists of a header and a content component.
+     */
+    public void addStep(Step step) throws IllegalArgumentException {
+        checkStep(step);
+        step.addStepNavigationListener(event -> setCurrentStep(event.getStep()));
+        step.addValidationListener(event -> updateButtonEnabledState());
+        header.add(step.getHeader());
+        steps.add(step);
+        initialize();
+    }
 
-  public void setBackText(String text) {
-    back.setText(text);
-  }
+    private void checkStep(Step step) throws IllegalArgumentException {
+        if (step.getHeader() == null) {
+            throw new IllegalArgumentException("Step header can not be null.");
+        }
+        if (step.getContent() == null) {
+            throw new IllegalArgumentException("Step content can not be null.");
+        }
+    }
 
-  public void setFinishText(String text) {
-    finish.setText(text);
-  }
+    public void setCurrentStep(Step step) {
+        if (steps.contains(step)) {
+            changeStep(step);
+        }
+    }
 
-  public void setValidationMode(ValidationMode validationMode) {
-    this.validationMode = validationMode;
-    next.setEnabled(validationMode == ValidationMode.ON_NEXT || currentStep.isValid());
-    finish.setEnabled(validationMode == ValidationMode.ON_NEXT || currentStep.isValid());
-  }
+    public void enableHeaderNavigation(boolean enabled) {
 
-  @Override
-  protected void onAttach(AttachEvent attachEvent) {
-    initialize();
-  }
+    }
+
+    public Registration addCancelListener(ComponentEventListener<ClickEvent<Button>> listener) {
+        setCancelVisible(true);
+        return cancel.addClickListener(listener);
+    }
+
+    /**
+     * Sets the visibility of the cancel button in the footer. Also affects the layout of the footer.
+     *
+     * @param visible
+     */
+    public void setCancelVisible(boolean visible) {
+        footer.removeAll();
+        cancel.setVisible(visible);
+        if (visible) {
+            footer.add(cancel, new HorizontalLayout(back, next, finish));
+        } else {
+            footer.add(back, new Div(), new HorizontalLayout(next, finish));
+        }
+    }
+
+    public Registration addNextListener(ComponentEventListener<ClickEvent<Button>> listener) {
+        return next.addClickListener(listener);
+    }
+
+    public Registration addBackListener(ComponentEventListener<ClickEvent<Button>> listener) {
+        return back.addClickListener(listener);
+    }
+
+    public Registration addFinishListener(ComponentEventListener<ClickEvent<Button>> listener) {
+        return finish.addClickListener(listener);
+    }
+
+    public void setCancelText(String text) {
+        cancel.setText(text);
+    }
+
+    public void setNextText(String text) {
+        next.setText(text);
+    }
+
+    public void setBackText(String text) {
+        back.setText(text);
+    }
+
+    public void setFinishText(String text) {
+        finish.setText(text);
+    }
+
+    public void setValidationMode(ValidationMode validationMode) {
+        this.validationMode = validationMode;
+        next.setEnabled(validationMode == ValidationMode.ON_NEXT || currentStep.isValid());
+        finish.setEnabled(validationMode == ValidationMode.ON_NEXT || currentStep.isValid());
+    }
+
+    @Override
+    protected void onAttach(AttachEvent attachEvent) {
+        initialize();
+    }
+
+    /**
+     * Set the first step.
+     * Only happens when the component is attached, at least one step is available and there is no current step.
+     */
+    protected void initialize() {
+        if (getParent().isPresent() && !steps.isEmpty() && currentStep == null) {
+            currentStep = steps.get(0);
+            currentStep.enter();
+            next.setEnabled(currentStep.isValid());
+            content.add(currentStep.getContent());
+        }
+    }
 
 }
