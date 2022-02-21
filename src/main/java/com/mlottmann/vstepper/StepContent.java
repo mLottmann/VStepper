@@ -14,26 +14,26 @@ import java.util.function.Consumer;
  */
 public abstract class StepContent extends Div implements EnterStepListener, AbortStepListener, CompleteStepListener, ValidationContent {
 
-	private final List<Consumer<Boolean>> validationListeners;
-	private boolean validState;
+    private final List<Consumer<Boolean>> validationListeners;
+    private boolean validState;
 
-	public StepContent() {
-		this.validationListeners = new ArrayList<>();
-	}
+    public StepContent() {
+        this.validationListeners = new ArrayList<>();
+    }
 
-	public void addValidationListener(Consumer<Boolean> validationListener) {
-		this.validationListeners.add(validationListener);
-	}
+    public void addValidationListener(Consumer<Boolean> validationListener) {
+        this.validationListeners.add(validationListener);
+    }
 
-	private void updateValidationListeners() {
-		validationListeners.forEach(listener -> listener.accept(validState));
-	}
+    protected void stepChanged() {
+        if (validState != isValid()) {
+            validState = isValid();
+            updateValidationListeners();
+        }
+    }
 
-	protected void stepChanged() {
-		if (validState != isValid()) {
-			validState = isValid();
-			updateValidationListeners();
-		}
-	}
+    private void updateValidationListeners() {
+        validationListeners.forEach(listener -> listener.accept(validState));
+    }
 
 }

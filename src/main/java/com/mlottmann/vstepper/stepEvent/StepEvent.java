@@ -8,5 +8,5 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class StepEvent {
 
-	private final Step step;
+    private final Step step;
 }

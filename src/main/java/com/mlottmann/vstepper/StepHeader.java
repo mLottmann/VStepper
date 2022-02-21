@@ -18,43 +18,43 @@ import java.util.List;
  */
 public class StepHeader extends Div implements EnterStepListener, AbortStepListener, CompleteStepListener, NavigationHeader {
 
-  private final List<Runnable> navigationListeners;
+    private final List<Runnable> navigationListeners;
 
-  public StepHeader() {
-    super();
-    navigationListeners = new ArrayList<>();
-    addClickListener(divClickEvent -> updateNavigationListeners());
-  }
+    public StepHeader(Component... components) {
+        this();
+        add(components);
+    }
 
-  public StepHeader(Component... components) {
-    this();
-    add(components);
-  }
+    public StepHeader() {
+        super();
+        navigationListeners = new ArrayList<>();
+        addClickListener(divClickEvent -> updateNavigationListeners());
+    }
 
-  private void updateNavigationListeners() {
-    navigationListeners.forEach(Runnable::run);
-  }
+    private void updateNavigationListeners() {
+        navigationListeners.forEach(Runnable::run);
+    }
 
-  @Override
-  public void onAbort(AbortEvent event) {
-    removeClassName("completed");
-    removeClassName("active");
-  }
+    @Override
+    public void onAbort(AbortEvent event) {
+        removeClassName("completed");
+        removeClassName("active");
+    }
 
-  @Override
-  public void onComplete(CompleteEvent event) {
-    removeClassName("active");
-    addClassName("completed");
-  }
+    @Override
+    public void onComplete(CompleteEvent event) {
+        removeClassName("active");
+        addClassName("completed");
+    }
 
-  @Override
-  public void onEnter(EnterEvent event) {
-    removeClassName("completed");
-    addClassName("active");
-  }
+    @Override
+    public void onEnter(EnterEvent event) {
+        removeClassName("completed");
+        addClassName("active");
+    }
 
-  @Override
-  public void addNavigationListener(Runnable navigationListener) {
-    navigationListeners.add(navigationListener);
-  }
+    @Override
+    public void addNavigationListener(Runnable navigationListener) {
+        navigationListeners.add(navigationListener);
+    }
 }
