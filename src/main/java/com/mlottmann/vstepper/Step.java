@@ -31,11 +31,11 @@ public abstract class Step {
     @Getter
     private Component content;
 
-    public Step() {
+    protected Step() {
         this.listeners = new HashMap<>();
     }
 
-    public Step(Component header, Component content) {
+    protected Step(Component header, Component content) {
         this();
         setHeader(header);
         setContent(content);
@@ -52,7 +52,7 @@ public abstract class Step {
         addListener(this.header);
         if (this.header instanceof NavigationHeader) {
             ((NavigationHeader) this.header)
-                    .addNavigationListener(() -> updateStepNavigationListeners());
+                    .addNavigationListener(this::updateStepNavigationListeners);
         }
     }
 
@@ -74,9 +74,7 @@ public abstract class Step {
     private void removeListener(Component component) {
         if (component instanceof StepEventListener) {
             StepEventListener listener = (StepEventListener) component;
-            listeners.values().forEach(stepEventListeners -> {
-                stepEventListeners.remove(listener);
-            });
+            listeners.values().forEach(stepEventListeners -> stepEventListeners.remove(listener));
         }
     }
 
@@ -135,7 +133,7 @@ public abstract class Step {
 
     private <E extends StepEventListener> List<E> getListeners(Class<E> listenerType) {
         List<E> registeredListeners = (List) this.listeners.computeIfAbsent(listenerType, (key) -> {
-            return new ArrayList();
+            return new ArrayList<>();
         });
         return registeredListeners;
     }

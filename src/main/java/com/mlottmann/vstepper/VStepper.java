@@ -11,11 +11,10 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.littemplate.LitTemplate;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.polymertemplate.Id;
-import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
+import com.vaadin.flow.component.template.Id;
 import com.vaadin.flow.shared.Registration;
-import com.vaadin.flow.templatemodel.TemplateModel;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -28,7 +27,7 @@ import java.util.List;
  */
 @Tag("v-stepper")
 @JsModule("./v-stepper.js")
-public class VStepper extends PolymerTemplate<TemplateModel> implements HasSize, HasStyle {
+public class VStepper extends LitTemplate implements HasSize, HasStyle {
 
     private final List<Step> steps;
     private Step currentStep;
@@ -58,7 +57,7 @@ public class VStepper extends PolymerTemplate<TemplateModel> implements HasSize,
     }
 
     /**
-     * @param components the components to display in the the different stepper steps.
+     * @param components the components to display in the different stepper steps.
      */
     public VStepper(Component... components) {
         this();
@@ -234,7 +233,6 @@ public class VStepper extends PolymerTemplate<TemplateModel> implements HasSize,
     /**
      * Sets the visibility of the cancel button in the footer. Also affects the layout of the footer.
      *
-     * @param visible
      */
     public void setCancelVisible(boolean visible) {
         footer.removeAll();
