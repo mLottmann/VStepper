@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
-    <groupId>com.mlottmann.VStepper</groupId>
-    <artifactId>VStepper</artifactId>
-    <version>1.0.10</version>
+    <!-- Project from https://start.vaadin.com/project/f532e269-1c72-4516-84ab-5c5003f3fc7b -->
+    <groupId>com.mlottmann.vstepper</groupId>
+    <artifactId>vstepper</artifactId>
     <name>VStepper</name>
+    <version>1.0.10</version>
+    <packaging>jar</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -14,28 +16,62 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <lombok.version>1.18.22</lombok.version>
-        <drivers.dir>${project.basedir}/drivers</drivers.dir>
-        <vaadin.version>22.0.4</vaadin.version>
-        <jetty.version>9.4.15.v20190215</jetty.version>
+        <vaadin.version>22.0.5</vaadin.version>
     </properties>
-    <organization>
-        <name>Vaadin Visitor</name>
-    </organization>
-    <licenses>
-        <license>
-            <name>Apache 2</name>
-            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
+
+
+    <repositories>
+        <!-- The order of definitions matters. Explicitly defining central here to make sure it has the highest priority. -->
+
+        <!-- Main Maven repository -->
+        <repository>
+            <id>central</id>
+            <url>https://repo.maven.apache.org/maven2</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>vaadin-prereleases</id>
+            <url>
+                https://maven.vaadin.com/vaadin-prereleases/
+            </url>
+        </repository>
+        <!-- Repository used by many Vaadin add-ons -->
+        <repository>
+            <id>Vaadin Directory</id>
+            <url>https://maven.vaadin.com/vaadin-addons</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <!-- The order of definitions matters. Explicitly defining central here to make sure it has the highest priority. -->
+        <pluginRepository>
+            <id>central</id>
+            <url>https://repo.maven.apache.org/maven2</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+            <id>vaadin-prereleases</id>
+            <url>
+                https://maven.vaadin.com/vaadin-prereleases/
+            </url>
+        </pluginRepository>
+    </pluginRepositories>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>com.vaadin</groupId>
                 <artifactId>vaadin-bom</artifactId>
+                <version>${vaadin.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
-                <version>${vaadin.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -43,7 +79,17 @@
     <dependencies>
         <dependency>
             <groupId>com.vaadin</groupId>
-            <artifactId>vaadin-core</artifactId>
+            <!-- Replace artifactId with vaadin-core to use only free components -->
+            <artifactId>vaadin</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-testbench</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -56,44 +102,16 @@
             <version>${lombok.version}</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>com.vaadin</groupId>
-            <artifactId>flow-component-demo-helpers</artifactId>
-            <version>9.0.5</version>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 
     <build>
-        <resources>
-            <resource>
-                <directory>src/test/java</directory>
-                <filtering>false</filtering>
-            </resource>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>false</filtering>
-            </resource>
-        </resources>
-        <defaultGoal>jetty:run</defaultGoal>
+        <defaultGoal>spring-boot:run</defaultGoal>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.1.0</version>
-                <configuration>
-                    <archive>
-                        <index>true</index>
-                        <manifest>
-                            <addClasspath>false</addClasspath>
-                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-                        </manifest>
-                        <manifestEntries>
-                            <Vaadin-Package-Version>1</Vaadin-Package-Version>
-                        </manifestEntries>
-                    </archive>
-                </configuration>
-            </plugin>
+            <!--
+                Take care of synchronizing java dependencies and imports in
+                package.json and main.js files.
+                It also creates webpack.config.js if not exists yet.
+            -->
             <plugin>
                 <groupId>com.vaadin</groupId>
                 <artifactId>vaadin-maven-plugin</artifactId>
@@ -106,250 +124,30 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-maven-plugin</artifactId>
-                <version>${jetty.version}</version>
-                <configuration>
-                    <scanIntervalSeconds>3</scanIntervalSeconds>
-                    <!-- Use test scope because the UI/demo classes are in
-                            the test package. -->
-                    <useTestScope>true</useTestScope>
-                    <supportedPackagings>
-                        <supportedPackaging>jar</supportedPackaging>
-                    </supportedPackagings>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>com.github.eirslett</groupId>
-                <artifactId>frontend-maven-plugin</artifactId>
-                <version>1.8.0</version>
-
-                <executions>
-                    <execution>
-                        <id>install node and npm</id>
-                        <goals>
-                            <goal>install-node-and-npm</goal>
-                        </goals>
-                        <phase>generate-resources</phase>
-                    </execution>
-                </executions>
-                <configuration>
-                    <nodeVersion>v12.13.0</nodeVersion>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
 
     <profiles>
         <profile>
-            <id>directory</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-assembly-plugin</artifactId>
-                        <version>3.1.0</version>
-                        <configuration>
-                            <appendAssemblyId>false</appendAssemblyId>
-                            <descriptors>
-                                <descriptor>assembly/assembly.xml</descriptor>
-                            </descriptors>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>single</goal>
-                                </goals>
-                                <phase>install</phase>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-source-plugin</artifactId>
-                        <version>3.0.1</version>
-                        <executions>
-                            <execution>
-                                <id>attach-sources</id>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>jar-no-fork</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>3.0.1</version>
-                        <executions>
-                            <execution>
-                                <id>attach-javadocs</id>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                        <configuration>
-                            <quiet>true</quiet>
-                            <additionalparam>-Xdoclint:none</additionalparam>
-                        </configuration>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-jar-plugin</artifactId>
-                        <version>3.1.2</version>
-                        <configuration>
-                            <!-- Generated file that shouldn't be included in add-ons -->
-                            <excludes>
-                                <exclude>META-INF/VAADIN/config/flow-build-info.json</exclude>
-                            </excludes>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
-        <!-- Run (demo) in production mode-->
-        <profile>
+            <!-- Production mode is activated using -Pproduction -->
             <id>production</id>
-            <properties>
-                <vaadin.productionMode>true</vaadin.productionMode>
-            </properties>
-            <dependencies>
-                <dependency>
-                    <groupId>com.vaadin</groupId>
-                    <artifactId>flow-server-production-mode</artifactId>
-                </dependency>
-            </dependencies>
-
             <build>
                 <plugins>
                     <plugin>
                         <groupId>com.vaadin</groupId>
                         <artifactId>vaadin-maven-plugin</artifactId>
+                        <version>${vaadin.version}</version>
                         <executions>
                             <execution>
                                 <goals>
                                     <goal>build-frontend</goal>
                                 </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
-        <profile>
-            <id>integration-tests</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.eclipse.jetty</groupId>
-                        <artifactId>jetty-maven-plugin</artifactId>
-                        <version>${jetty.version}</version>
-                        <configuration>
-                            <scanIntervalSeconds>0</scanIntervalSeconds>
-                            <supportedPackagings>
-                                <supportedPackaging>jar</supportedPackaging>
-                            </supportedPackagings>
-                            <stopKey>${project.artifactId}</stopKey>
-                            <stopPort>8081</stopPort>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>start-jetty</id>
-                                <phase>pre-integration-test</phase>
-                                <goals>
-                                    <goal>start</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>stop-jetty</id>
-                                <phase>post-integration-test</phase>
-                                <goals>
-                                    <goal>stop</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-                    <plugin>
-                        <groupId>com.lazerycode.selenium</groupId>
-                        <artifactId>driver-binary-downloader-maven-plugin
-                        </artifactId>
-                        <version>1.0.17</version>
-                        <configuration>
-                            <onlyGetDriversForHostOperatingSystem>
-                                true
-                            </onlyGetDriversForHostOperatingSystem>
-                            <rootStandaloneServerDirectory>
-                                ${drivers.dir}/driver
-                            </rootStandaloneServerDirectory>
-                            <downloadedZipFileDirectory>
-                                ${drivers.dir}/driver_zips
-                            </downloadedZipFileDirectory>
-                            <customRepositoryMap>
-                                ${project.basedir}/drivers.xml
-                            </customRepositoryMap>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>selenium</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-failsafe-plugin</artifactId>
-                        <version>2.22.2</version>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>integration-test</goal>
-                                    <goal>verify</goal>
-                                </goals>
+                                <phase>compile</phase>
                             </execution>
                         </executions>
                         <configuration>
-                            <trimStackTrace>false</trimStackTrace>
-                            <enableAssertions>true</enableAssertions>
-                            <systemPropertyVariables>
-                                <!-- Pass location of downloaded webdrivers to the tests -->
-                                <webdriver.chrome.driver>
-                                    ${webdriver.chrome.driver}
-                                </webdriver.chrome.driver>
-                            </systemPropertyVariables>
+                            <productionMode>true</productionMode>
                         </configuration>
-                    </plugin>
-                    <plugin>
-                        <artifactId>maven-resources-plugin</artifactId>
-                        <version>3.1.0</version>
-                        <executions>
-                            <execution>
-                                <!-- Since the view class is defined in test, after compilation
-                                copy it to the runtime classpath to ensure it gets visited by
-                                  vaadin-maven-plugin -->
-                                <id>copy-test-to-classes</id>
-                                <phase>process-test-classes</phase>
-                                <goals>
-                                    <goal>copy-resources</goal>
-                                </goals>
-                                <configuration>
-                                    <outputDirectory>${project.build.outputDirectory}</outputDirectory>
-                                    <resources>
-                                        <resource>
-                                            <directory>${project.build.testOutputDirectory}</directory>
-                                        </resource>
-                                    </resources>
-                                </configuration>
-                            </execution>
-                        </executions>
                     </plugin>
                 </plugins>
             </build>

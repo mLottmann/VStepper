@@ -26,7 +26,7 @@ import java.util.List;
  * Vaadin addon for displaying a series of components one at a time.
  */
 @Tag("v-stepper")
-@JsModule("./v-stepper.js")
+@JsModule("./vstepper/v-stepper.js")
 public class VStepper extends LitTemplate implements HasSize, HasStyle {
 
     private final List<Step> steps;
@@ -54,6 +54,9 @@ public class VStepper extends LitTemplate implements HasSize, HasStyle {
     public VStepper() {
         this.steps = new ArrayList<>();
         initFooter();
+        header.getElement().setAttribute("slot", "header");
+        content.getElement().setAttribute("slot", "content");
+        footer.getElement().setAttribute("slot", "footer");
     }
 
     /**
@@ -232,7 +235,6 @@ public class VStepper extends LitTemplate implements HasSize, HasStyle {
 
     /**
      * Sets the visibility of the cancel button in the footer. Also affects the layout of the footer.
-     *
      */
     public void setCancelVisible(boolean visible) {
         footer.removeAll();
