@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <!-- Project from https://start.vaadin.com/project/f532e269-1c72-4516-84ab-5c5003f3fc7b -->
-    <groupId>com.mlottmann.vstepper</groupId>
-    <artifactId>vstepper</artifactId>
+    <groupId>com.mlottmann.VStepper</groupId>
+    <artifactId>VStepper</artifactId>
     <name>VStepper</name>
     <version>1.0.10</version>
     <packaging>jar</packaging>
@@ -105,7 +105,6 @@
     </dependencies>
 
     <build>
-        <defaultGoal>spring-boot:run</defaultGoal>
         <plugins>
             <!--
                 Take care of synchronizing java dependencies and imports in
@@ -126,7 +125,6 @@
             </plugin>
         </plugins>
     </build>
-
     <profiles>
         <profile>
             <!-- Production mode is activated using -Pproduction -->
