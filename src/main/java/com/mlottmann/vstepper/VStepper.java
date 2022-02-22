@@ -35,10 +35,12 @@ public class VStepper extends PolymerTemplate<TemplateModel> implements HasSize,
   private ValidationMode validationMode = ValidationMode.ON_CHANGE;
 
   @Id
+  @Getter
   private Div header;
   @Id
   private Div content;
   @Id
+  @Getter
   private Div footer;
 
   @Getter
