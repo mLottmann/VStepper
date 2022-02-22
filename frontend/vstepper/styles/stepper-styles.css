@@ -1,0 +1,27 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--lumo-contrast-10pct);
+    margin: var(--lumo-space-m) var(--lumo-space-m) 0 var(--lumo-space-m);
+    padding-bottom: var(--lumo-space-s);
+    overflow-x: auto;
+}
+
+.content {
+    display: flex;
+    flex-grow: 1;
+    margin: var(--lumo-space-s) var(--lumo-space-m);
+    overflow-y: auto;
+}
+
+.footer {
+    display: flex;
+    justify-content: space-between;
+    margin: var(--lumo-space-s) var(--lumo-space-m);
+}

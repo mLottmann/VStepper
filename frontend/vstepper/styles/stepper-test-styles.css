@@ -1,0 +1,43 @@
+.custom-header {
+    display: flex;
+    flex-direction: column;
+    color: black;
+    width: 100px;
+    height: 70px;
+    justify-content: center;
+    align-items: center;
+    border-style: solid;
+    border-color: blue;
+    border-radius: 10px;
+}
+
+.custom-header.completed {
+    border-color: green;
+    background: green;
+}
+
+.custom-header.active {
+    border-color: green;
+}
+
+.custom-content {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    justify-content: space-evenly;
+}
+
+.row {
+    width: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    align-self: center;
+}
+
+.confirmation-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    margin-bottom: 10px;
+}

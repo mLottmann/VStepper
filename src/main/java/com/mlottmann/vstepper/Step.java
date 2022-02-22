@@ -98,7 +98,7 @@ public abstract class Step {
         if (listener == null) {
             throw new IllegalArgumentException("Listener cant be null");
         }
-        List<E> list = (List) this.listeners.computeIfAbsent(listenerType, (key) -> new ArrayList<>());
+        List<E> list = (List<E>) this.listeners.computeIfAbsent(listenerType, (key) -> new ArrayList<>());
         list.add(listener);
         return () -> list.remove(listener);
     }
@@ -132,10 +132,7 @@ public abstract class Step {
     protected abstract void onEnter();
 
     private <E extends StepEventListener> List<E> getListeners(Class<E> listenerType) {
-        List<E> registeredListeners = (List) this.listeners.computeIfAbsent(listenerType, (key) -> {
-            return new ArrayList<>();
-        });
-        return registeredListeners;
+        return (List<E>) this.listeners.computeIfAbsent(listenerType, (key) -> new ArrayList<>());
     }
 
     /**
